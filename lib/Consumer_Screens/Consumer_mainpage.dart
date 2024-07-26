@@ -1,46 +1,57 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import '../Categories/subcategory_screen.dart';
-import 'consumerSignup.dart';
 import '../Providers/seller_cart_provider.dart';
-import '../initialScreens/loginScreen.dart';
-import '../seller/addProduct.dart';
-import 'Consumer_Profile.dart';
-import 'ContactUs.dart';
+import '../seller/cart.dart';
+import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
+import '../Consumer_Screens/Consumer_Profile.dart';
+import '../subcategory_screen/subcategoriesnew.dart';
+import 'explore_consumer_screen.dart';
 import 'add_requirements_consumer.dart';
 import 'added_postings.dart';
-import 'explore_consumer_screen.dart';
-import 'favourites.dart';
-import '../seller/cart.dart' as cartt;
-import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
+import 'ContactUs.dart';
+import '../initialScreens/loginScreen.dart';
+import '../../seller/sellerwelcome.dart';
+import 'package:services_android_app/seller/cart.dart' as cartt;
 
 class ConsumerMainPageScreen extends StatefulWidget {
-  //
-  // late final String ImageURL;
-  // late final String productName;
-  // late final String productPrice;
-  // late final String productDescription;
-  //
-  // ConsumerMainPageScreen({required this.ImageURL,
-  //   required this.productDescription,
-  //   required this.productPrice,
-  //   required this.productName
-  // }); // Up
   @override
   _ConsumerMainPageScreenState createState() => _ConsumerMainPageScreenState();
 }
 
 class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
   int _selectedIndex = 0;
-  bool _onFavoritePage = false;
 
   CollectionReference _collectionRef =
-      FirebaseFirestore.instance.collection('Category');
+  FirebaseFirestore.instance.collection('Category');
 
   late Stream<QuerySnapshot> _streamCategory = _collectionRef.snapshots();
+
+  String userFirstName = 'User'; // Default username if none is found
+
+  @override
+  void initState() {
+    super.initState();
+    _streamCategory = _collectionRef.snapshots();
+    _fetchUserName();
+    _saveCategoriesToFirestore(); // Save categories on init
+  }
+
+  Future<void> _fetchUserName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          userFirstName = userDoc['firstname'] ?? 'User';
+        });
+      }
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -49,13 +60,14 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
 
     if (index == 1) {
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => cartscreen.CartScreen(
-                    cart: Provider.of<cartt.Cart>(context, listen: false),
-                    cartProvider:
-                        Provider.of<CartProvider>(context, listen: false),
-                  )));
+        context,
+        MaterialPageRoute(
+          builder: (context) => cartscreen.CartScreen(
+            cart: Provider.of<Cart>(context, listen: false),
+            cartProvider: Provider.of<CartProvider>(context, listen: false),
+          ),
+        ),
+      );
     } else if (index == 2) {
       Navigator.push(
         context,
@@ -64,143 +76,138 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
     }
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _streamCategory = _collectionRef.snapshots();
+  Future<void> _saveCategoriesToFirestore() async {
+    // Implementation for saving categories
   }
 
   @override
   Widget build(BuildContext context) {
-    // final favouriteProductsModel =
-    //     Provider.of<FavouriteProductPage>(context, listen: false);
-
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/pastel.png"),
-              fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage("assets/images/background_image.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white, // Make Scaffold background transparent
         appBar: AppBar(
+          backgroundColor: Color(0xffffa7a6),
           elevation: 13,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(12),
-                  bottomLeft: Radius.circular(12))),
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(8),
+              bottomLeft: Radius.circular(8),
+            ),
+          ),
           title: Align(
             alignment: Alignment.center,
             child: Text(
-              "Browse Category",
+              "",
               style: TextStyle(color: Colors.white),
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => cartscreen.CartScreen(
-                              cart: Provider.of<cartt.Cart>(context,
-                                  listen: false),
-                              cartProvider: Provider.of<CartProvider>(context,
-                                  listen: false),
-                            )));
-              },
-            ),
-          ],
         ),
         body: Padding(
-          padding: EdgeInsets.only(top: 80),
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream:
-                FirebaseFirestore.instance.collection('Category').snapshots(),
-            builder: (_, snapshot) {
-              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Welcome, $userFirstName!",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: 'Montserrat'
+                  ),
+                ),
+              ),
+              SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text('What would you like to explore today?', style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Montserrat',
 
-              if (snapshot.hasData) {
-                final docs = snapshot.data!.docs;
-                return ListView.builder(
-                  itemCount: docs.length,
-                  itemBuilder: (_, i) {
-                    final data = docs[i].data();
-                    return Column(
-                      children: [
-                        ListTile(
-                          tileColor: Colors.white24,
+                ),),
+              ),
+              SizedBox(height: 32),
 
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            size: 20,
-                            color: Colors.black,
-                          ),
-                          leading: data['name'] == "Tailoring"
-                              ? Image(
-                                  image:
-                                      AssetImage('assets/images/tailoring.png'),
-                                  width: 80.0,
-                                  height: 70.0,
-                                )
-                              : data['name'] == "Knitting"
-                                  ? Image(
-                                      image: AssetImage(
-                                          'assets/images/knittingpic.png'),
-                                      width: 80.0,
-                                      height: 70.0,
-                                    )
-                                  : data['name'] == "Baking"
-                                      ? Image(
-                                          image: AssetImage(
-                                              'assets/images/baking.png'),
-                                          width: 80.0,
-                                          height: 70.0,
-                                        )
-                                      : data['name'] == "Cooking"
-                                          ? Image(
-                                              image: AssetImage(
-                                                  'assets/images/cooking.png'),
-                                              width: 80.0,
-                                              height: 70.0,
-                                            )
-                                          : data['name'] == "Arts & Crafts "
-                                              ? Image(
-                                                  image: AssetImage(
-                                                      'assets/images/ac.png'),
-                                                )
-                                              : Image(
-                                                  image: AssetImage(
-                                                      'assets/images/ac.png'),
-                                                ),
-                          title: Text(
-                            data['name'],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // subtitle: Text(data['subcategories'].toString()),
-                          onTap: () {
-                            print("i am calling tap ");
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SubcategoryScreen(
-                                      categories: data,
-                                    )));
-                          },
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _streamCategory,
+                  builder: (_, snapshot) {
+                    if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+
+                    if (snapshot.hasData) {
+                      final docs = snapshot.data!.docs;
+                      return GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 6.0,
+                          mainAxisSpacing: 7.0,
+                          childAspectRatio: 1.1,
                         ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                );
-              }
+                        itemCount: docs.length,
+                        itemBuilder: (_, i) {
+                          final data = docs[i].data() as Map<String, dynamic>;
 
-              return Center(child: CircularProgressIndicator());
-            },
+                          // Ensure 'subcategories' field is a List and not null
+                          final subcategories =
+                              (data['subcategories'] as List<dynamic>?)
+                                  ?.map((sub) => sub['name'].toString())
+                                  .toList() ??
+                                  [];
+
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SubcategoryScreen(
+                                  categoryName: data['name'], // Category name
+                                  subcategories:
+                                  subcategories, // Pass the list of subcategories
+                                ),
+                              ));
+                            },
+                            child: Card(
+                              elevation: 2,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: GridTile(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: Image.asset(
+                                    data['image'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                footer: GridTileBar(
+                                  backgroundColor: Colors.black38,
+                                  title: Text(
+                                    data['name'],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat'
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
+
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -213,178 +220,293 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
               icon: Icon(Icons.shopping_cart),
               label: 'Cart',
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
           ],
           currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white54,
+          backgroundColor: Color(0xffffa7a6),
           onTap: _onItemTapped,
+          selectedLabelStyle: TextStyle(
+            fontFamily: 'Montserrat', // Change to your desired font family
+            fontWeight: FontWeight.bold,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontFamily: 'Montserrat', // Change to your desired font family
+            fontWeight: FontWeight.normal,
+          ),
         ),
-        drawer: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/pastel.png"),
-                  fit: BoxFit.cover)),
-          child: Drawer(
-            backgroundColor: Colors.transparent,
+        drawer: Drawer(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xffffa7a6), // Set the background color to pink hex code
+            ),
             child: ListView(
+              padding: EdgeInsets.zero, // Ensure no padding at the top
               children: <Widget>[
-                SizedBox(
-                  height: 80.h,
+                Container(
+                  color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                  child: Column(
+                    children: <Widget>[
+                      DrawerHeader(
+                        decoration: BoxDecoration(
+                          color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 45, // Smaller radius for the avatar
+                              backgroundImage: AssetImage('assets/images/avatarimage.png'),
+                              // Use NetworkImage for online images
+                              // backgroundImage: NetworkImage('https://example.com/avatar.png'),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Welcome $userFirstName',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18, // Smaller font size
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // This Container is used to prevent the default divider line below the DrawerHeader
+                      Container(
+                        color: Color(0xffffa7a6),
+                        height: 1, // To ensure the space between header and items is consistent
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
-                  height: 25.0,
-                  child: DrawerHeader(
-                    child: null,
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 10)),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.dashboard,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Dashboard",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.dashboard,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Dashboard",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                        fontSize: 15
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ExploreConsumer()));
-                  },
+                          builder: (context) => ExploreConsumer(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.home,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Home Page",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ConsumerMainPageScreen()));
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.post_add,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Add requirements/Postings",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddRequirements()));
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.switch_account,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Switch to Service Provider",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.calendar_view_month_rounded,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "View posted requirements",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () async {
-                    final addedReqSnapshot = await FirebaseFirestore.instance
-                        .collection('AddRequirements')
-                        .get();
-                    final addedrequirements = addedReqSnapshot.docs
-                        .map((doc) => RequirementModel.fromJson(doc.data()))
-                        .toList();
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.home,
+                      size: 19,
+                      color: Color(0xff712643),
 
-                    Navigator.push(
+                    ),
+                    title: Text(
+                      "Home Page",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PostingDisplayedScreen(
-                                  addedposting: {
-                                    'All Requirements': addedrequirements,
-                                  },
-                                  id: 'id',
-                                )));
-                  },
+                          builder: (context) => ConsumerMainPageScreen(),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.help,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Contact us /Help",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.post_add,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Add requirements/Postings",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ContactUsScreen()));
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.logout,
-                    size: 18,
-                    color: Colors.purple,
+                          builder: (context) => AddRequirements(),
+                        ),
+                      );
+                    },
                   ),
-                  title: Text(
-                    "Logout",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                  },
                 ),
-                Divider(),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.calendar_view_month_rounded,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "View posted requirements",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () async {
+                      final addedReqSnapshot = await FirebaseFirestore.instance
+                          .collection('AddRequirements')
+                          .get();
+                      final addedrequirements = addedReqSnapshot.docs
+                          .map((doc) => RequirementModel.fromJson(doc.data()))
+                          .toList();
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostingDisplayedScreen(
+                            addedposting: {
+                              'All Requirements': addedrequirements,
+                            },
+                            id: 'id',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.switch_account,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Switch to Seller",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SellerWelcome(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.help,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Contact Us",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ContactUsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.logout,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Log out",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                    },
+                  ),
+                ),
+                // No Divider here
               ],
             ),
           ),

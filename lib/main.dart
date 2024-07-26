@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
 
 import 'Consumer_Screens/favourites.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<Cart>(
           create: (_) => Cart(),
         ),
+
         // Add other providers here if needed
       ],
       child: ScreenUtilInit(
@@ -41,21 +43,21 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
 
             theme: ThemeData(
-              scaffoldBackgroundColor:  Color(0xFFFFFFFF),
+              scaffoldBackgroundColor:  Color(0xffffa7a6),
               primarySwatch: Colors.purple,
               // accentColor: Colors.pink,
               inputDecorationTheme: const InputDecorationTheme(
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Color(0xFFAB47BC)),
+                  borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Color(0xFFAB47BC)),
+                  borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                 ),
               ),
             ),
-            home: SplashScreen(),
+            home: ConsumerMainPageScreen(),
             debugShowCheckedModeBanner: false,
           );
         },

@@ -1,12 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:provider/provider.dart';
-import '../Categories/subcategory_screen.dart';
+import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
+import 'package:services_android_app/Consumer_Screens/explore_consumer_screen.dart';
 import '../Consumer_Screens/ContactUs.dart';
 import '../Consumer_Screens/add_requirements_consumer.dart';
+import '../Consumer_Screens/added_postings.dart';
 import '../Providers/seller_cart_provider.dart';
 import '../initialScreens/loginScreen.dart';
 import 'Packaging_Screen.dart';
@@ -25,11 +25,35 @@ class SellerHomePage extends StatefulWidget {
 
 class _SellerHomePageState extends State<SellerHomePage> {
   int _selectedIndex = 0;
-
-  CollectionReference _collectionRef =
-  FirebaseFirestore.instance.collection('Category');
-
+  CollectionReference _collectionRef = FirebaseFirestore.instance.collection('Category');
   late Stream<QuerySnapshot> _streamCategory = _collectionRef.snapshots();
+  String userFirstName = 'User'; // Default username if none is found
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserName();
+    _saveCategoriesToFirestore(); // Save categories on init
+  }
+
+  Future<void> _fetchUserName() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (userDoc.exists) {
+        setState(() {
+          userFirstName = userDoc['firstname'] ?? 'User';
+        });
+      }
+    }
+  }
+
+  Future<void> _saveCategoriesToFirestore() async {
+    // Implementation for saving categories
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -42,35 +66,35 @@ class _SellerHomePageState extends State<SellerHomePage> {
       );
     } else if (index == 2) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SellerPortfolio()));
+        context,
+        MaterialPageRoute(builder: (context) => SellerPortfolio()),
+      );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _streamCategory = _collectionRef.snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/pastel.png"),
-              fit: BoxFit.cover)),
+        image: DecorationImage(
+          image: AssetImage("assets/images/pastel.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 13,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(12),
-                  bottomLeft: Radius.circular(12))),
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(12),
+              bottomLeft: Radius.circular(12),
+            ),
+          ),
           title: Align(
             alignment: Alignment.center,
             child: Text(
-              "Seller Categories",
+              "",
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -87,96 +111,81 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     builder: (context) => cartscreen.CartScreen(
                       cart: context.read<cartt.Cart>(),
                       cartProvider: context.read<CartProvider>(),
-
                     ),
                   ),
                 );
               },
             ),
+
+
           ],
         ),
         body: Padding(
-          padding: EdgeInsets.only(top: 80),
-          child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection('Category').snapshots(),
-            builder: (_, snapshot) {
-              if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+          padding: EdgeInsets.all(10),
+          child: GridView.count(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 10.0,
+            children: <Widget>[
+              _buildGridTile(
+                title: 'Add Products',
+                icon: Icons.add,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddProduct()),
+                  );
+                }, imageUrl: '',
+              ),
+              _buildGridTile(
+                title: 'Show Requirements/Postings',
+                icon: Icons.calendar_view_month_rounded,
+                onTap: () async {
+                  final addedReqSnapshot = await FirebaseFirestore.instance
+                      .collection('AddRequirements')
+                      .get();
+                  final addedrequirements = addedReqSnapshot.docs
+                      .map((doc) => RequirementModel.fromJson(doc.data()))
+                      .toList();
 
-              if (snapshot.hasData) {
-                final docs = snapshot.data!.docs;
-                return ListView.builder(
-                  itemCount: docs.length,
-                  itemBuilder: (_, i) {
-                    final data = docs[i].data();
-                    return Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: ListTile(
-                            tileColor: Colors.white24,
-                            trailing: Icon(
-                              Icons.arrow_forward,
-                              size: 20,
-                              color: Colors.black,
-                            ),
-                            leading: data['name'] == "Tailoring"
-                                ? Image(
-                              image: AssetImage('assets/images/tailoring.png'),
-                              width: 80.0,
-                              height: 70.0,
-                            )
-                                : data['name'] == "Knitting"
-                                ? Image(
-                              image: AssetImage('assets/images/knittingpic.png'),
-                              width: 80.0,
-                              height: 70.0,
-                            )
-                                : data['name'] == "Baking"
-                                ? Image(
-                              image: AssetImage('assets/images/baking.png'),
-                              width: 80.0,
-                              height: 70.0,
-                            )
-                                : data['name'] == "Cooking"
-                                ? Image(
-                              image: AssetImage('assets/images/cooking.png'),
-                              width: 80.0,
-                              height: 70.0,
-                            )
-                                : data['name'] == "Arts & Crafts "
-                                ? Image(
-                              image: AssetImage('assets/images/ac.png'),
-                            )
-                                : Image(
-                              image: AssetImage('assets/images/ac.png'),
-                            ),
-                            title: Text(
-                              data['name'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onTap: () {
-                              print("i am calling tap ");
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SubcategoryScreen(
-                                  categories: data,
-                                ),
-                              ));
-                            },
-                          ),
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                );
-              }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PostingDisplayedScreen(
+                        addedposting: {
+                          'All Requirements': addedrequirements,
+                        },
+                        id: 'id',
+                      ),
+                    ),
+                  );
+                }, imageUrl: '',
+              ),
+              _buildGridTile(
+                title: 'Added Products',
+                icon: Icons.check_box,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+                  );
+                },
+                imageUrl: 'assets/images/baking.jpeg', // Replace with your asset image path
+              ),
 
-              return Center(child: CircularProgressIndicator());
-            },
+              _buildGridTile(
+                title: 'Portfolio',
+                icon: Icons.folder,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SellerPortfolio()),
+                  );
+                }, imageUrl: '',
+              ),
+
+
+            ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -196,221 +205,398 @@ class _SellerHomePageState extends State<SellerHomePage> {
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
+          backgroundColor: Color(0xffffa7a6), // Background color of the bottom navigation bar
+          selectedItemColor: Colors.white, // Color of the selected item
+          unselectedItemColor: Color(0xffffd7d7), // Color of the unselected items
         ),
-        drawer: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/pastel.png"),
-                  fit: BoxFit.cover)),
-          child: Drawer(
-            backgroundColor: Colors.transparent,
-            child: ListView(
-              children: <Widget>[
-                SizedBox(
-                  height: 80.h,
-                ),
-                Container(
-                  height: 25.0,
-                  child: DrawerHeader(
-                    child: null,
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 10)),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.dashboard,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Dashboard",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SellerWelcome()),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.category,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Categories",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SellerHomePage()),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.person,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Profile",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfilePage()),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.post_add,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Show requirements/Postings",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () async {
-                    final addedReqSnapshot = await FirebaseFirestore.instance
-                        .collection('AddRequirements')
-                        .get();
-                    final addedrequirements = addedReqSnapshot.docs
-                        .map((doc) => RequirementModel.fromJson(doc.data()))
-                        .toList();
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SellerShowPostings(
-                          addedposting: {'All Requirements': addedrequirements},
-                          id: 'id',
+        drawer: Drawer(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xffffa7a6), // Set the background color to pink hex code
+            ),
+            child: ListView(
+              padding: EdgeInsets.zero, // Ensure no padding at the top
+              children: <Widget>[
+                Container(
+                  color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                  child: Column(
+                    children: <Widget>[
+                      DrawerHeader(
+                        decoration: BoxDecoration(
+                          color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              radius: 45, // Smaller radius for the avatar
+                              backgroundImage: AssetImage('assets/images/avatarimage.png'),
+                              // Use NetworkImage for online images
+                              // backgroundImage: NetworkImage('https://example.com/avatar.png'),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Welcome $userFirstName',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18, // Smaller font size
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.backpack_rounded,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Select Packaging",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PackagingScreen(),
+                      // This Container is used to prevent the default divider line below the DrawerHeader
+                      Container(
+                        color: Color(0xffffa7a6),
+                        height: 1, // To ensure the space between header and items is consistent
                       ),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.switch_account,
-                    size: 18,
-                    color: Colors.purple,
+                    ],
                   ),
-                  title: Text(
-                    "Switch to Consumer",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                ),
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.dashboard,
+                      size: 19,
+                      color: Color(0xff712643),
                     ),
-                  ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.help,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Contact us /Help",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                    title: Text(
+                      "Dashboard",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreConsumer(),
+                        ),
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => ContactUsScreen()),
-                    );
-                  },
                 ),
-                Divider(),
-                ListTile(
-                  tileColor: Colors.white38,
-                  trailing: Icon(
-                    Icons.logout,
-                    size: 18,
-                    color: Colors.purple,
-                  ),
-                  title: Text(
-                    "Logout",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.home,
+                      size: 19,
+                      color: Color(0xff712643),
+
                     ),
+                    title: Text(
+                      "Categories",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ConsumerMainPageScreen(),
+                        ),
+                      );
+                    },
                   ),
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
                 ),
-                Divider(),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.post_add,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Profile",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.calendar_view_month_rounded,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "View posted requirements",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () async {
+                      final addedReqSnapshot = await FirebaseFirestore.instance
+                          .collection('AddRequirements')
+                          .get();
+                      final addedrequirements = addedReqSnapshot.docs
+                          .map((doc) => RequirementModel.fromJson(doc.data()))
+                          .toList();
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostingDisplayedScreen(
+                            addedposting: {
+                              'All Requirements': addedrequirements,
+                            },
+                            id: 'id',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.switch_account,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Select Packaging",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PackagingScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.help,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Switch to Consumer",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ExploreConsumer(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 8), // Adjust space between items
+
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.logout,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Contac us/Help",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => ContactUsScreen()),
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 8), // Adjust space between items
+                Container(
+                  color: Color(0xffffd7d7), // Lighter pink for the tile
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+                    trailing: Icon(
+                      Icons.logout,
+                      size: 19,
+                      color: Color(0xff712643),
+                    ),
+                    title: Text(
+                      "Log out",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Montserrat',
+                          fontSize: 15
+
+                      ),
+                    ),
+                    onTap: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
+                    },
+                  ),
+                ),
+                // No Divider here
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildGridTile({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+    required String imageUrl, // Make imageUrl a required parameter
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: GridTile(
+        child: Container(
+          // Set the size constraints for the container
+          constraints: BoxConstraints.expand(),
+          child: AspectRatio(
+            aspectRatio: 1, // Use 1:1 aspect ratio for a square grid tile
+            child: Image.asset(
+              imageUrl,
+              fit: BoxFit.cover, // Ensures the image covers the entire tile
+            ),
+          ),
+        ),
+        footer: GridTileBar(
+          backgroundColor: Colors.black54,
+          title: Text(title),
+          leading: Icon(icon, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+
+
+  Widget _buildConsumerGridTile({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: Colors.white,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(icon, size: 50),
+              SizedBox(height: 10),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerTile({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.white),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
+      ),
+      onTap: onTap,
     );
   }
 }
