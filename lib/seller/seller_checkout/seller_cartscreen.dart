@@ -38,16 +38,16 @@ class _CartScreenState extends State<CartScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/page6.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 80),
-            child: Text('Cart 🛒'),
           ),
           leading: IconButton(
             icon: Icon(
@@ -71,8 +71,10 @@ class _CartScreenState extends State<CartScreen> {
             child: Text(
               '         Cart is empty!\nAdd something to cart 🛒',
               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                fontSize: 19,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Montserrat',
+                  color: Colors.black54
               ),
             ),
           ),

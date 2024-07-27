@@ -28,10 +28,10 @@ class _Cart_ScreenState extends State<Cart_Screen> {
     return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/pastel.png"),
+                image: AssetImage("assets/images/page5.png"),
                 fit: BoxFit.cover)),
         child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             appBar: AppBar(
               elevation: 13,
               shape: RoundedRectangleBorder(

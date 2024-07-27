@@ -36,7 +36,7 @@ class RequirementsDisplayScreen extends StatelessWidget {
             Positioned.fill(
               child: Column(
                 children: [
-                  SizedBox(height: 80), // Add space above the GridView
+                  SizedBox(height: 70), // Add space above the GridView
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance.collection('AddRequirements').snapshots(),
