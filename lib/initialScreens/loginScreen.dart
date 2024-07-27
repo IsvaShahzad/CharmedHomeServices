@@ -1,12 +1,6 @@
-import 'dart:ui';
-
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import '../seller/sellerwelcome.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'ContinueAsConsumerOrSellerScreen.dart';
 import 'ForgotPasswordScreen.dart';
 import 'registration_screen.dart';
@@ -20,17 +14,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-
   bool _isObscure = true;
   final loginFormKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
-  late String email;
-  late String password;
-  late bool isLogin;
 
   void _showLoggedInSnackbar() {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -232,27 +219,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                         onPressed: () async {
                                           if (loginFormKey.currentState?.validate() == true) {
                                             try {
-                                              final user = await _auth.signInWithEmailAndPassword(
+                                              final userCredential = await _auth.signInWithEmailAndPassword(
                                                 email: emailController.text,
                                                 password: passwordController.text,
                                               );
-                                              print(user);
-                                              _showLoggedInSnackbar();
-                                              // Navigate to the next screen only if the user is registered
-                                              if (user != null) {
+                                              final user = userCredential.user;
+
+                                              if (user != null && user.emailVerified) {
+                                                _showLoggedInSnackbar();
                                                 Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (BuildContext context) => ContinueAsScreen(),
                                                   ),
                                                 );
+                                              } else {
+                                                if (user != null && !user.emailVerified) {
+                                                  await user.sendEmailVerification();
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text('Email not verified. A verification email has been sent.'),
+                                                      backgroundColor: Colors.orange,
+                                                    ),
+                                                  );
+                                                }
+                                                // Handle login failure or reauthentication if necessary
                                               }
                                             } catch (e) {
                                               print(e);
                                               // Display an error message to the user
                                               ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
-                                                  content: Text('User not found. Please check your email and password.'),
+                                                  content: Text('User not found. Please check your email and password or verify .'),
                                                   backgroundColor: Colors.red,
                                                 ),
                                               );

@@ -7,7 +7,7 @@ import '../seller/cart.dart';
 import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import '../Consumer_Screens/Consumer_Profile.dart';
 import '../subcategory_screen/subcategoriesnew.dart';
-import '../trialscreen.dart';
+import 'posted_required_screen.dart';
 import 'explore_consumer_screen.dart';
 import 'add_requirements_consumer.dart';
 import 'added_postings.dart';
@@ -25,7 +25,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
   int _selectedIndex = 0;
 
   CollectionReference _collectionRef =
-  FirebaseFirestore.instance.collection('Category');
+      FirebaseFirestore.instance.collection('Category');
 
   late Stream<QuerySnapshot> _streamCategory = _collectionRef.snapshots();
 
@@ -91,7 +91,8 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent, // Make Scaffold background transparent
+        backgroundColor:
+            Colors.transparent, // Make Scaffold background transparent
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -110,42 +111,55 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // Adjust padding based on screen width
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width *
+              0.03), // Adjust padding based on screen width
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 "Welcome, $userFirstName!",
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.06, // Adjust font size based on screen width
+                  fontSize: MediaQuery.of(context).size.width *
+                      0.06, // Adjust font size based on screen width
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                   fontFamily: 'Montserrat',
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.02), // Adjust spacing based on screen width
+              SizedBox(
+                  height: MediaQuery.of(context).size.width *
+                      0.02), // Adjust spacing based on screen width
               Text(
                 'What would you like to explore today?',
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.04, // Adjust font size based on screen width
+                  fontSize: MediaQuery.of(context).size.width *
+                      0.04, // Adjust font size based on screen width
                   fontFamily: 'Montserrat',
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.08), // Adjust spacing based on screen width
+              SizedBox(
+                  height: MediaQuery.of(context).size.width *
+                      0.08), // Adjust spacing based on screen width
 
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: _streamCategory,
                   builder: (_, snapshot) {
-                    if (snapshot.hasError) return Text('Error = ${snapshot.error}');
+                    if (snapshot.hasError)
+                      return Text('Error = ${snapshot.error}');
 
                     if (snapshot.hasData) {
                       final docs = snapshot.data!.docs;
                       return GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2, // Adjust number of columns based on screen width
-                          crossAxisSpacing: MediaQuery.of(context).size.width * 0.01, // Adjust spacing based on screen width
-                          mainAxisSpacing: MediaQuery.of(context).size.width * 0.01, // Adjust spacing based on screen width
+                          crossAxisCount: MediaQuery.of(context).size.width >
+                                  600
+                              ? 3
+                              : 2, // Adjust number of columns based on screen width
+                          crossAxisSpacing: MediaQuery.of(context).size.width *
+                              0.01, // Adjust spacing based on screen width
+                          mainAxisSpacing: MediaQuery.of(context).size.width *
+                              0.01, // Adjust spacing based on screen width
                           childAspectRatio: 1.13,
                         ),
                         itemCount: docs.length,
@@ -155,8 +169,8 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                           // Ensure 'subcategories' field is a List and not null
                           final subcategories =
                               (data['subcategories'] as List<dynamic>?)
-                                  ?.map((sub) => sub['name'].toString())
-                                  .toList() ??
+                                      ?.map((sub) => sub['name'].toString())
+                                      .toList() ??
                                   [];
 
                           return GestureDetector(
@@ -165,13 +179,12 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                                 builder: (context) => SubcategoryScreen(
                                   categoryName: data['name'], // Category name
                                   subcategories:
-                                  subcategories, // Pass the list of subcategories
+                                      subcategories, // Pass the list of subcategories
                                 ),
                               ));
                             },
                             child: Card(
                               elevation: 1.5,
-
                               child: GridTile(
                                 child: ClipRRect(
                                   child: Image.asset(
@@ -188,7 +201,10 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'Montserrat',
-                                      fontSize: MediaQuery.of(context).size.width * 0.04, // Adjust font size based on screen width
+                                      fontSize: MediaQuery.of(context)
+                                              .size
+                                              .width *
+                                          0.04, // Adjust font size based on screen width
                                     ),
                                   ),
                                 ),
@@ -213,21 +229,24 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.home,
-                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                  size: MediaQuery.of(context).size.width *
+                      0.07, // Adjust icon size based on screen width
                 ),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.shopping_cart,
-                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                  size: MediaQuery.of(context).size.width *
+                      0.07, // Adjust icon size based on screen width
                 ),
                 label: 'Cart',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
                   Icons.person,
-                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                  size: MediaQuery.of(context).size.width *
+                      0.07, // Adjust icon size based on screen width
                 ),
                 label: 'Profile',
               ),
@@ -240,177 +259,188 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
             selectedLabelStyle: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.bold,
-              fontSize: MediaQuery.of(context).size.width * 0.035, // Adjust font size based on screen width
+              fontSize: MediaQuery.of(context).size.width *
+                  0.035, // Adjust font size based on screen width
             ),
             unselectedLabelStyle: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.normal,
-              fontSize: MediaQuery.of(context).size.width * 0.035, // Adjust font size based on screen width
+              fontSize: MediaQuery.of(context).size.width *
+                  0.035, // Adjust font size based on screen width
             ),
-            type: BottomNavigationBarType.fixed, // Ensures the bottom navigation bar is displayed correctly on various screen sizes
+            type: BottomNavigationBarType
+                .fixed, // Ensures the bottom navigation bar is displayed correctly on various screen sizes
             elevation: 5, // Adjust elevation if needed
           ),
         ),
-          drawer: Drawer(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                // Determine the size of the screen
-                bool isWideScreen = constraints.maxWidth > 600; // Define your breakpoint here
+        drawer: Drawer(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // Determine the size of the screen
+              bool isWideScreen =
+                  constraints.maxWidth > 600; // Define your breakpoint here
 
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xfff4b7be), // Set the background color to pink hex code
-                  ),
-                  child: ListView(
-                    padding: EdgeInsets.zero, // Ensure no padding at the top
-                    children: <Widget>[
-                      Container(
-                        color: Color(0xfff4b7be), // Header color set to #FFA7A6
-                        child: Column(
-                          children: <Widget>[
-                            DrawerHeader(
-                              decoration: BoxDecoration(
-                                color: Color(0xfff4b7be), // Header color set to #FFA7A6
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    radius: isWideScreen ? 60 : 45, // Responsive avatar size
-                                    backgroundImage: AssetImage('assets/images/avatarimage.png'),
-                                    // Use NetworkImage for online images
-                                    // backgroundImage: NetworkImage('https://example.com/avatar.png'),
+              return Container(
+                decoration: BoxDecoration(
+                  color: Color(
+                      0xfff4b7be), // Set the background color to pink hex code
+                ),
+                child: ListView(
+                  padding: EdgeInsets.zero, // Ensure no padding at the top
+                  children: <Widget>[
+                    Container(
+                      color: Color(0xfff4b7be), // Header color set to #FFA7A6
+                      child: Column(
+                        children: <Widget>[
+                          DrawerHeader(
+                            decoration: BoxDecoration(
+                              color: Color(
+                                  0xfff4b7be), // Header color set to #FFA7A6
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: isWideScreen
+                                      ? 60
+                                      : 45, // Responsive avatar size
+                                  backgroundImage: AssetImage(
+                                      'assets/images/avatarimage.png'),
+                                  // Use NetworkImage for online images
+                                  // backgroundImage: NetworkImage('https://example.com/avatar.png'),
+                                ),
+                                SizedBox(
+                                    height: isWideScreen
+                                        ? 20
+                                        : 10), // Responsive space
+                                Text(
+                                  'Welcome $userFirstName',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: isWideScreen
+                                        ? 22
+                                        : 18, // Responsive font size
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Montserrat',
                                   ),
-                                  SizedBox(height: isWideScreen ? 20 : 10), // Responsive space
-                                  Text(
-                                    'Welcome $userFirstName',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: isWideScreen ? 22 : 18, // Responsive font size
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat',
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            // This Container is used to prevent the default divider line below the DrawerHeader
-                            Container(
-                              color: Color(0xffffa7a6),
-                              height: 1, // To ensure the space between header and items is consistent
-                            ),
-                          ],
-                        ),
+                          ),
+                          // This Container is used to prevent the default divider line below the DrawerHeader
+                          Container(
+                            color: Color(0xffffa7a6),
+                            height:
+                                1, // To ensure the space between header and items is consistent
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 8), // Space between header and first item
-                      _buildDrawerItem(
-                        icon: Icons.dashboard,
-                        title: "Dashboard",
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ExploreConsumer(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.home,
-                        title: "Home Page",
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ConsumerMainPageScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.post_add,
-                        title: "Add requirements/Postings",
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddRequirements(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.calendar_view_month_rounded,
-                        title: "View posted requirements",
-                        onTap: () async {
-                          final addedReqSnapshot = await FirebaseFirestore.instance
-                              .collection('AddRequirements')
-                              .get();
-                          final addedrequirements = addedReqSnapshot.docs
-                              .map((doc) => RequirementModel.fromJson(doc.data()))
-                              .toList();
+                    ),
+                    SizedBox(height: 8), // Space between header and first item
+                    _buildDrawerItem(
+                      icon: Icons.dashboard,
+                      title: "Dashboard",
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExploreConsumer(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.home,
+                      title: "Home Page",
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ConsumerMainPageScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.post_add,
+                      title: "Add requirements/Postings",
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddRequirements(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.calendar_view_month_rounded,
+                      title: "View posted requirements",
+                      onTap: () async {
+                        final addedReqSnapshot = await FirebaseFirestore
+                            .instance
+                            .collection('AddRequirements')
+                            .get();
+                        final addedrequirements = addedReqSnapshot.docs
+                            .map((doc) => RequirementModel.fromJson(doc.data()))
+                            .toList();
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PostingDisplayedScreen(
-                                    addedposting: {
-                                      'All Requirements': addedrequirements,
-                                    },
-                                    id: 'id',
-                                  )));
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.switch_account,
-                        title: "Switch to Seller",
-                        onTap: () {
-                          Navigator.pushReplacement(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SellerWelcome(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.help,
-                        title: "Contact Us",
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ContactUsScreen(),
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space between items
-                      _buildDrawerItem(
-                        icon: Icons.logout,
-                        title: "Log out",
-                        onTap: () async {
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => LoginScreen()),
-                          );
-                        },
-                      ),
-                      SizedBox(height: 8), // Space before the end of the list
-                    ],
-                  ),
-                );
-              },
-            ),
+                                builder: (context) =>
+                                    RequirementsDisplayScreen()));
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.switch_account,
+                      title: "Switch to Seller",
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SellerWelcome(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.help,
+                      title: "Contact Us",
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ContactUsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space between items
+                    _buildDrawerItem(
+                      icon: Icons.logout,
+                      title: "Log out",
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 8), // Space before the end of the list
+                  ],
+                ),
+              );
+            },
           ),
-
-
+        ),
       ),
     );
   }

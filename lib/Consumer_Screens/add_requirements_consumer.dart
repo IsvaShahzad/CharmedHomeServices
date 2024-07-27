@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:services_android_app/trialscreen.dart';
+import 'package:services_android_app/Consumer_Screens/posted_required_screen.dart';
 import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import 'Consumer_mainpage.dart';
@@ -428,15 +428,22 @@ class _AddRequirementsState extends State<AddRequirements> {
                             SizedBox(height: 7.h),
                             GestureDetector(
                               onTap: selectFile,
-                              child: Container(
-                                height: 150,
-                                width: double.infinity,
-                                color: Colors.grey[300],
-                                child: imageFile == null
-                                    ? Center(child: Text('Select an image'))
-                                    : Image.file(imageFile!),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                  height: 130,
+                                  width: 130,
+                                  color: Colors.grey[300],
+                                  child: imageFile == null
+                                      ? Center(child: Text('Select an image'))
+                                      : Image.file(
+                                    imageFile!,
+                                    fit: BoxFit.cover, // or BoxFit.contain based on your needs
+                                  ),
+                                ),
                               ),
                             ),
+
                             SizedBox(height: 15.h),
                             Center(
                               child: ElevatedButton(
