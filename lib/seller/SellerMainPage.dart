@@ -445,36 +445,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     },
                   ),
                 ),
-                SizedBox(height: 8), // Adjust space between items
 
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.logout,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Contact Us/Help",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => ContactUsScreen()),
-                      );
-                    },
-                  ),
-                ),
 
                 SizedBox(height: 8), // Adjust space between items
                 Container(

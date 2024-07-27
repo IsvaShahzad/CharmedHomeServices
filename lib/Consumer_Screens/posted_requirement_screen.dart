@@ -66,9 +66,11 @@ class RequirementsDisplayScreen extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AddRequirements()),
-                  );                },
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(builder: (context) => AddRequirements()),
+                  // );
+                  Navigator.pop(context);
+                  },
               ),
             ),
             // Overlay content

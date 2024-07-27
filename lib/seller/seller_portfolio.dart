@@ -33,36 +33,48 @@ class _SellerPortfolioState extends State<SellerPortfolio> {
   Future ShowAlert() {
     return showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text("Portfolio updated! "),
-        actions: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                elevation: 3,
-                minimumSize: const Size(150, 50),
-                maximumSize: const Size(150, 50),
-                shape: StadiumBorder(),
+      builder: (ctx) => Builder(
+        builder: (context) => AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0), // Square shape
+          ),
+          title: Text(
+            "Portfolio updated! ",
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 20),
+          ),
+          actions: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xffcc9a9d),
+                  elevation: 3,
+                  minimumSize: const Size(150, 50),
+                  maximumSize: const Size(150, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0.0), // Square shape
+                  ),
+                ),
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      fontFamily: 'Montserrat'),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SellerPortfolio(),
+                  ));
+                },
               ),
-              child: Text(
-                'OK',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SellerPortfolio(),
-                ));
-              },
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
-
   @override
   void initState() {
     super.initState();
@@ -96,20 +108,15 @@ class _SellerPortfolioState extends State<SellerPortfolio> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/portfolio.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 13,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomRight: Radius.circular(12),
-              bottomLeft: Radius.circular(12),
-            ),
-          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
@@ -121,13 +128,6 @@ class _SellerPortfolioState extends State<SellerPortfolio> {
                   MaterialPageRoute(
                       builder: (BuildContext context) => SellerHomePage()));
             },
-          ),
-          title: Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Seller Portfolio 💼',
-              style: TextStyle(color: Colors.white),
-            ),
           ),
           actions: [
             if (_isSeller) // Only show edit button if the user is a seller
@@ -153,224 +153,163 @@ class _SellerPortfolioState extends State<SellerPortfolio> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(padding: EdgeInsets.only(top: 50)),
-                  Text(
-                    'Details:',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
                   SizedBox(
-                    height: 20.h,
-                  ),
-                  Text(
-                    'Name:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
+                    height: 20,
                   ),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _nameController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _nameController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      decoration: InputDecoration(
                           hintText: 'Enter your name',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your name';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true, // Enable fill color
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none // Set fill color here
+                          ),
+
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your name';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Occupation:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _occupationController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _occupationController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      decoration: InputDecoration(
                           hintText: 'Enter your occupation',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your occupation';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your occupation';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Experience:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _experienceController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _experienceController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      decoration: InputDecoration(
                           hintText: 'Enter your experience',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your experience';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your experience';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Description:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _descriptionController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        maxLines: 5,
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _descriptionController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      maxLines: 5,
+                      decoration: InputDecoration(
                           hintText: 'Enter a description',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter a description';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter a description';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Products:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _productsController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        maxLines: 5,
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _productsController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      maxLines: 5,
+                      decoration: InputDecoration(
                           hintText: 'Enter your products',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your products';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your products';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Email:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _emailController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        decoration: InputDecoration(
+                    child: TextFormField(
+                      controller: _emailController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      decoration: InputDecoration(
                           hintText: 'Enter your email',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your email';
-                          }
-                          return null;
-                        },
-                      ),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.8),
+                          border: InputBorder.none),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  Text(
-                    'Phone number:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
-                  ),
+                  SizedBox(height: 10.h),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 13),
-                      child: TextFormField(
-                        controller: _phoneController,
-                        enabled:
-                            !_status, // Disable editing if the status is true
-                        decoration: InputDecoration(
-                          hintText: 'Enter your number',
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter your number';
-                          }
-                          return null;
-                        },
+                    child: TextFormField(
+                      controller: _phoneController,
+                      enabled:
+                          !_status, // Disable editing if the status is true
+                      decoration: InputDecoration(
+                        hintText: 'Enter your number',
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.8),
+                        border: InputBorder.none,
                       ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter your number';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 10.h),
                   Align(
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color(0xffcc9a9d),
                         elevation: 3,
                         minimumSize: const Size(150, 50),
                         maximumSize: const Size(150, 50),
-                        shape: StadiumBorder(),
-                      ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0), // Square shape
+                        ),                      ),
                       child: Text(
                         'Save',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                            fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'Montserrat'),
                       ),
                       onPressed: _status
                           ? null
