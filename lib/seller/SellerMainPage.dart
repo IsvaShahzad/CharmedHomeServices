@@ -148,17 +148,17 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       .map((doc) => RequirementModel.fromJson(doc.data()))
                       .toList();
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PostingDisplayedScreen(
-                        addedposting: {
-                          'All Requirements': addedrequirements,
-                        },
-                        id: 'id',
-                      ),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => PostingDisplayedScreen(
+                  //       addedposting: {
+                  //         'All Requirements': addedrequirements,
+                  //       },
+                  //       id: 'id',
+                  //     ),
+                  //   ),
+                  // );
                 }, imageUrl: '',
               ),
               _buildGridTile(
@@ -374,17 +374,17 @@ class _SellerHomePageState extends State<SellerHomePage> {
                           .map((doc) => RequirementModel.fromJson(doc.data()))
                           .toList();
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PostingDisplayedScreen(
-                            addedposting: {
-                              'All Requirements': addedrequirements,
-                            },
-                            id: 'id',
-                          ),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                        // MaterialPageRoute(
+                        //   builder: (context) => PostingDisplayedScreen(
+                        //     addedposting: {
+                        //       'All Requirements': addedrequirements,
+                        //     },
+                        //     id: 'id',
+                        //   ),
+                        // ),
+                      // );
                     },
                   ),
                 ),

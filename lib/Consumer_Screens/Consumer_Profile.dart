@@ -37,27 +37,46 @@ class MapScreenState extends State<ConsumerProfile>
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text("Profile updated! "),
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Profile updated!",
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 19),
+          ),
+        ),
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                foregroundColor: Colors.white,
+                backgroundColor: Color(0xffb38e8e),
                 elevation: 3,
                 minimumSize: const Size(150, 50),
                 maximumSize: const Size(150, 50),
-                shape: StadiumBorder(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
               ),
-              child: Text('OK',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ConsumerProfile()));
+                  MaterialPageRoute(builder: (context) => ConsumerProfile()),
+                );
               },
             ),
           )
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // Makes the AlertDialog square
+        ),
       ),
     );
   }
@@ -79,44 +98,43 @@ class MapScreenState extends State<ConsumerProfile>
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/pastel.png"),
-              fit: BoxFit.cover)),
+              image: AssetImage("assets/images/page5.png"), fit: BoxFit.cover)),
       child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
-            elevation: 13,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12))),
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(13),
+                bottomLeft: Radius.circular(12),
               ),
-              onPressed: () {
-                Navigator.pushReplacement(
+            ),
+            leading: Transform.translate(
+              offset: Offset(0, -8), // Move the icon 8 pixels up
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ConsumerMainPageScreen()));
-              },
-            ),
-            title: Text(
-              'Profile Page',
-              style: TextStyle(color: Colors.white),
+                      builder: (context) => ConsumerMainPageScreen(),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           body: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/pastel.png"),
-                    fit: BoxFit.cover)),
+
             child: Form(
               // color: Colors.white,
               child: new ListView(
@@ -147,11 +165,7 @@ class MapScreenState extends State<ConsumerProfile>
                         ),
                       ),
                       new Container(
-                        decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/pastel.png"),
-                                fit: BoxFit.cover)),
+
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 25.0),
                           child: new Column(
@@ -176,7 +190,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 22.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffb38e8e),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -195,7 +210,7 @@ class MapScreenState extends State<ConsumerProfile>
                                   )),
                               Padding(
                                   padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 65.0),
+                                      left: 25.0, right: 25.0, top: 45.0),
                                   child: new Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
@@ -209,7 +224,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffcc9a9d),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -258,7 +274,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffcc9a9d),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -305,7 +322,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffcc9a9d),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -351,7 +369,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffcc9a9d),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ),
@@ -364,7 +383,8 @@ class MapScreenState extends State<ConsumerProfile>
                                             style: TextStyle(
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                              color: Color(0xffcc9a9d),
+                                              fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ),
@@ -454,22 +474,25 @@ class MapScreenState extends State<ConsumerProfile>
               padding: EdgeInsets.only(right: 10.0),
               child: Container(
                   child: new ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0),
-                        ),
-                        elevation: 5,
-                        minimumSize: const Size(130, 50),
-                        maximumSize: const Size(130, 50),
-                      ),
-                      child: new Text("Save"),
-                      // textColor: Colors.white,
-                      // color: Colors.green,is
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xffb38e8e),
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(2.0),
+                  ),
+                  elevation: 1,
+                  minimumSize: const Size(130, 50),
+                  maximumSize: const Size(130, 50),
+                ),
+                child: new Text("Save", style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'Montserrat'
+                ),),
+                // textColor: Colors.white,
+                // color: Colors.green,is
 
-                    onPressed: saveConsumerProfile,
-
-                  )),
+                onPressed: saveConsumerProfile,
+              )),
             ),
             flex: 2,
           ),
@@ -479,15 +502,16 @@ class MapScreenState extends State<ConsumerProfile>
               child: Container(
                   child: new ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xffb38e8e),
                   shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
+                    borderRadius: new BorderRadius.circular(2.0),
                   ),
-                  elevation: 5,
+                  elevation: 1,
                   minimumSize: const Size(130, 50),
                   maximumSize: const Size(130, 50),
                 ),
-                child: new Text("Cancel"),
+                child: new Text("Cancel", style: TextStyle(fontFamily: 'Montserrat', fontSize: 15),),
                 onPressed: () {
                   setState(() {
                     _status = true;
@@ -506,7 +530,7 @@ class MapScreenState extends State<ConsumerProfile>
   Widget _getEditIcon() {
     return new GestureDetector(
       child: new CircleAvatar(
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xffb38e8e),
         radius: 14.0,
         child: new Icon(
           Icons.edit,
@@ -533,7 +557,7 @@ class MapScreenState extends State<ConsumerProfile>
 
       // Get a reference to the Firestore collection
       CollectionReference portfolioCollection =
-      FirebaseFirestore.instance.collection('consumer profile ');
+          FirebaseFirestore.instance.collection('consumer profile ');
 
       // Create a document with an auto-generated ID
       await portfolioCollection.add({

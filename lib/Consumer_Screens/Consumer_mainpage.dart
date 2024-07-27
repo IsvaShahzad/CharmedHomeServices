@@ -7,6 +7,7 @@ import '../seller/cart.dart';
 import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import '../Consumer_Screens/Consumer_Profile.dart';
 import '../subcategory_screen/subcategoriesnew.dart';
+import '../trialscreen.dart';
 import 'explore_consumer_screen.dart';
 import 'add_requirements_consumer.dart';
 import 'added_postings.dart';
@@ -353,16 +354,14 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                               .toList();
 
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PostingDisplayedScreen(
-                                addedposting: {
-                                  'All Requirements': addedrequirements,
-                                },
-                                id: 'id',
-                              ),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PostingDisplayedScreen(
+                                    addedposting: {
+                                      'All Requirements': addedrequirements,
+                                    },
+                                    id: 'id',
+                                  )));
                         },
                       ),
                       SizedBox(height: 8), // Space between items

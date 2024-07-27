@@ -14,11 +14,18 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       scheme: 'mailto',
       path: 'craftyhands90@gmail.com',
     );
-
     if (await canLaunchUrl(emailLaunchUri)) {
-      await launchUrl(emailLaunchUri);
+      try {
+        await launchUrl(emailLaunchUri);
+      } catch (e) {
+        print('Error launching email app: $e');
+        // Provide an alternative method, e.g., open a web-based email service
+        _openWebEmail();
+      }
     } else {
-      throw 'Could not launch email app.';
+      print('Could not launch email app');
+      // Provide an alternative method, e.g., open a web-based email service
+      _openWebEmail();
     }
   }
 
@@ -27,12 +34,37 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       scheme: 'tel',
       path: '03335206478',
     );
-
     if (await canLaunchUrl(phoneLaunchUri)) {
-      await launchUrl(phoneLaunchUri);
+      try {
+        await launchUrl(phoneLaunchUri);
+      } catch (e) {
+        print('Error launching phone dialer: $e');
+        // Provide an alternative method, e.g., display a message with the phone number
+        _displayPhoneNumber();
+      }
     } else {
-      throw 'Could not launch phone dialer.';
+      print('Could not launch phone dialer');
+      // Provide an alternative method, e.g., display a message with the phone number
+      _displayPhoneNumber();
     }
+  }
+
+  void _openWebEmail() {
+    // Open a web-based email service, e.g., Gmail web
+    launchUrl(Uri.parse('(link unavailable)'));
+  }
+
+  void _displayPhoneNumber() {
+    // Display a message with the phone number
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Phone Number'),
+          content: Text('03335206478'),
+        );
+      },
+    );
   }
 
 
@@ -41,28 +73,36 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/page5.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Text('Contact Us'),
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.white,
+        backgroundColor: Colors.transparent,
+        appBar:
+        AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(13),
+              bottomLeft: Radius.circular(12),
             ),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
-              );
-            },
+          ),
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 20.0), // Adjust this value to move the icon upwards
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Color(0xffb38e8e),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+                );
+              },
+            ),
           ),
         ),
         body: Container(
@@ -70,19 +110,21 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40.0),
+              SizedBox(height: 100.0),
               Text(
-                'We are always here to deliver. In case of further queries, please contact us using the information provided.',
+                "We're dedicated to assisting you. For any questions or support, please contact us using the information provided.",
                 style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
+                  fontFamily: 'Montserrat'
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 30.0),
               Text(
                 'For Contact:',
                 style: TextStyle(
                   fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w300,
+                  fontFamily: 'Montserrat'
                 ),
               ),
               SizedBox(height: 25.0),
@@ -94,16 +136,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       TextSpan(
                         text: 'Email: ',
                         style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black,
+                          fontFamily: 'Montserrat'
                         ),
                       ),
                       TextSpan(
                         text: 'craftyhands90@gmail.com',
                         style: TextStyle(
                           decoration: TextDecoration.underline,
-                          fontSize: 17.0,
+                          fontSize: 16.0,
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
                         ),
@@ -146,6 +189,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.blueGrey,
+                    fontFamily:'Montserrat'
                   ),
                 ),
               ),

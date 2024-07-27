@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
                 // ),
               ),
             ),
-            home: LoginScreen(),
+            home: ConsumerMainPageScreen(),
             debugShowCheckedModeBanner: false,
           );
         },

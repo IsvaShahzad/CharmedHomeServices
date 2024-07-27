@@ -485,7 +485,7 @@ class MapScreenState extends State<ProfilePage>
                   shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(30.0),
                   ),
-                  elevation: 5,
+                  elevation: 3,
                   minimumSize: const Size(130, 50),
                   maximumSize: const Size(130, 50),
                 ),
