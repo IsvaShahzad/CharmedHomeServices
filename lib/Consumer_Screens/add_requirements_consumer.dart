@@ -137,7 +137,7 @@ class _AddRequirementsState extends State<AddRequirements> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RequirementsDisplayScreen(),
+                          builder: (context) => AddRequirements(),
                         ),
                       );
                     }
