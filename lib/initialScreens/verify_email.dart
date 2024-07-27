@@ -26,12 +26,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
       timer = Timer.periodic(
         Duration(hours: 1),
-        (_) => checkEmailverified(),
+            (_) => checkEmailverified(),
       );
     }
   }
 
-  //when widget is removed from tree
   @override
   void dispose() {
     timer?.cancel();
@@ -55,68 +54,99 @@ class _VerifyEmailState extends State<VerifyEmail> {
       setState(() => canResendEmail = false);
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResendEmail = true);
-    } catch (e) {}
+    } catch (e) {
+      // Handle error
+    }
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/images/pastel.png"),
-                fit: BoxFit.cover)),
-        child: isverified
-            ? LoginScreen()
-            : Scaffold(
-            backgroundColor: Colors.white,
-                appBar: AppBar(
-                  title: Text('verify email'),
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/page4.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: isverified
+          ? LoginScreen()
+          : Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'A verification email has been sent to your account!',
+                style: TextStyle(
+                  fontSize: screenWidth * 0.05, // Responsive font size
+                  color: Colors.white,
+                  fontFamily: 'Montserrat',
                 ),
-                body: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'A verification email has been sent to your account! ',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 30),
-                      ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size.fromHeight(48),
-                          ),
-                          icon: Icon(Icons.email, size: 25),
-                          label: Text(
-                            'Resent Email',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          // onPressed: canResendEmail ? sendVerificationEmail :
-                          onPressed: sendVerificationEmail),
-                      SizedBox(height: 8),
-                      TextButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size.fromHeight(50),
-                          ),
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(fontSize: 24),
-                          ),
-
-                          // onPressed: () => FirebaseAuth.instance.signOut(),
-
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        LoginScreen()));
-                          }
-
-                          // onPressed: () => FirebaseAuth.instance.signOut(),
-                          ),
-                    ],
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: screenHeight * 0.03), // Responsive spacing
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Color(0xffcc9a9d), backgroundColor: Colors.white, minimumSize: Size(screenWidth * 0.6, screenHeight * 0.07), // Responsive size
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero, // Make the button square
+                  ), // Button text color
+                ),
+                icon: Icon(Icons.check_circle, size: screenWidth * 0.05, color: Color(0xffcc9a9d)),
+                label: Text(
+                  "I've Verified",
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.045, // Responsive font size
+                    color: Color(0xffcc9a9d),
+                    fontFamily: 'Montserrat',
                   ),
-                )),
-      );
+                ),
+                onPressed: () async {
+                  await sendVerificationEmail();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: screenHeight * 0.02), // Responsive spacing
+              TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white, minimumSize: Size(screenWidth * 0.6, screenHeight * 0.07), // Button text color
+                ),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.045, // Responsive font size
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

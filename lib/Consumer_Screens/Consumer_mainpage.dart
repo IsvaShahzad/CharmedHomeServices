@@ -85,15 +85,15 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/background_image.png"),
+          image: AssetImage("assets/images/mainpage.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white, // Make Scaffold background transparent
+        backgroundColor: Colors.transparent, // Make Scaffold background transparent
         appBar: AppBar(
-          backgroundColor: Color(0xffffa7a6),
-          elevation: 13,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(8),
@@ -109,31 +109,28 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
           ),
         ),
         body: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03), // Adjust padding based on screen width
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Welcome, $userFirstName!",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                    fontFamily: 'Montserrat'
-                  ),
+              Text(
+                "Welcome, $userFirstName!",
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.06, // Adjust font size based on screen width
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontFamily: 'Montserrat',
                 ),
               ),
-              SizedBox(height: 8),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text('What would you like to explore today?', style: TextStyle(
-                  fontSize: 15,
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02), // Adjust spacing based on screen width
+              Text(
+                'What would you like to explore today?',
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.04, // Adjust font size based on screen width
                   fontFamily: 'Montserrat',
-
-                ),),
+                ),
               ),
-              SizedBox(height: 32),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.08), // Adjust spacing based on screen width
 
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
@@ -145,10 +142,10 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                       final docs = snapshot.data!.docs;
                       return GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 6.0,
-                          mainAxisSpacing: 7.0,
-                          childAspectRatio: 1.1,
+                          crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2, // Adjust number of columns based on screen width
+                          crossAxisSpacing: MediaQuery.of(context).size.width * 0.01, // Adjust spacing based on screen width
+                          mainAxisSpacing: MediaQuery.of(context).size.width * 0.01, // Adjust spacing based on screen width
+                          childAspectRatio: 1.13,
                         ),
                         itemCount: docs.length,
                         itemBuilder: (_, i) {
@@ -172,13 +169,10 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                               ));
                             },
                             child: Card(
-                              elevation: 2,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
+                              elevation: 1.5,
+
                               child: GridTile(
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(4),
                                   child: Image.asset(
                                     data['image'],
                                     fit: BoxFit.cover,
@@ -192,7 +186,8 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'Montserrat'
+                                      fontFamily: 'Montserrat',
+                                      fontSize: MediaQuery.of(context).size.width * 0.04, // Adjust font size based on screen width
                                     ),
                                   ),
                                 ),
@@ -210,308 +205,242 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          child: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                ),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  size: MediaQuery.of(context).size.width * 0.07, // Adjust icon size based on screen width
+                ),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white54,
+            backgroundColor: Color(0xfff4b7be),
+            onTap: _onItemTapped,
+            selectedLabelStyle: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+              fontSize: MediaQuery.of(context).size.width * 0.035, // Adjust font size based on screen width
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-              label: 'Cart',
+            unselectedLabelStyle: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.normal,
+              fontSize: MediaQuery.of(context).size.width * 0.035, // Adjust font size based on screen width
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white54,
-          backgroundColor: Color(0xffffa7a6),
-          onTap: _onItemTapped,
-          selectedLabelStyle: TextStyle(
-            fontFamily: 'Montserrat', // Change to your desired font family
-            fontWeight: FontWeight.bold,
-          ),
-          unselectedLabelStyle: TextStyle(
-            fontFamily: 'Montserrat', // Change to your desired font family
-            fontWeight: FontWeight.normal,
+            type: BottomNavigationBarType.fixed, // Ensures the bottom navigation bar is displayed correctly on various screen sizes
+            elevation: 5, // Adjust elevation if needed
           ),
         ),
-        drawer: Drawer(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Color(0xffffa7a6), // Set the background color to pink hex code
-            ),
-            child: ListView(
-              padding: EdgeInsets.zero, // Ensure no padding at the top
-              children: <Widget>[
-                Container(
-                  color: Color(0xffffa7a6), // Header color set to #FFA7A6
-                  child: Column(
+          drawer: Drawer(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                // Determine the size of the screen
+                bool isWideScreen = constraints.maxWidth > 600; // Define your breakpoint here
+
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xfff4b7be), // Set the background color to pink hex code
+                  ),
+                  child: ListView(
+                    padding: EdgeInsets.zero, // Ensure no padding at the top
                     children: <Widget>[
-                      DrawerHeader(
-                        decoration: BoxDecoration(
-                          color: Color(0xffffa7a6), // Header color set to #FFA7A6
-                        ),
+                      Container(
+                        color: Color(0xfff4b7be), // Header color set to #FFA7A6
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            CircleAvatar(
-                              radius: 45, // Smaller radius for the avatar
-                              backgroundImage: AssetImage('assets/images/avatarimage.png'),
-                              // Use NetworkImage for online images
-                              // backgroundImage: NetworkImage('https://example.com/avatar.png'),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Welcome $userFirstName',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18, // Smaller font size
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat',
+                            DrawerHeader(
+                              decoration: BoxDecoration(
+                                color: Color(0xfff4b7be), // Header color set to #FFA7A6
                               ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    radius: isWideScreen ? 60 : 45, // Responsive avatar size
+                                    backgroundImage: AssetImage('assets/images/avatarimage.png'),
+                                    // Use NetworkImage for online images
+                                    // backgroundImage: NetworkImage('https://example.com/avatar.png'),
+                                  ),
+                                  SizedBox(height: isWideScreen ? 20 : 10), // Responsive space
+                                  Text(
+                                    'Welcome $userFirstName',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: isWideScreen ? 22 : 18, // Responsive font size
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Montserrat',
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // This Container is used to prevent the default divider line below the DrawerHeader
+                            Container(
+                              color: Color(0xffffa7a6),
+                              height: 1, // To ensure the space between header and items is consistent
                             ),
                           ],
                         ),
                       ),
-                      // This Container is used to prevent the default divider line below the DrawerHeader
-                      Container(
-                        color: Color(0xffffa7a6),
-                        height: 1, // To ensure the space between header and items is consistent
+                      SizedBox(height: 8), // Space between header and first item
+                      _buildDrawerItem(
+                        icon: Icons.dashboard,
+                        title: "Dashboard",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ExploreConsumer(),
+                            ),
+                          );
+                        },
                       ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.home,
+                        title: "Home Page",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ConsumerMainPageScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.post_add,
+                        title: "Add requirements/Postings",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddRequirements(),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.calendar_view_month_rounded,
+                        title: "View posted requirements",
+                        onTap: () async {
+                          final addedReqSnapshot = await FirebaseFirestore.instance
+                              .collection('AddRequirements')
+                              .get();
+                          final addedrequirements = addedReqSnapshot.docs
+                              .map((doc) => RequirementModel.fromJson(doc.data()))
+                              .toList();
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PostingDisplayedScreen(
+                                addedposting: {
+                                  'All Requirements': addedrequirements,
+                                },
+                                id: 'id',
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.switch_account,
+                        title: "Switch to Seller",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SellerWelcome(),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.help,
+                        title: "Contact Us",
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ContactUsScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space between items
+                      _buildDrawerItem(
+                        icon: Icons.logout,
+                        title: "Log out",
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8), // Space before the end of the list
                     ],
                   ),
-                ),
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.dashboard,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Dashboard",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                        fontSize: 15
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ExploreConsumer(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.home,
-                      size: 19,
-                      color: Color(0xff712643),
-
-                    ),
-                    title: Text(
-                      "Home Page",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ConsumerMainPageScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.post_add,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Add requirements/Postings",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddRequirements(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.calendar_view_month_rounded,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "View posted requirements",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () async {
-                      final addedReqSnapshot = await FirebaseFirestore.instance
-                          .collection('AddRequirements')
-                          .get();
-                      final addedrequirements = addedReqSnapshot.docs
-                          .map((doc) => RequirementModel.fromJson(doc.data()))
-                          .toList();
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PostingDisplayedScreen(
-                            addedposting: {
-                              'All Requirements': addedrequirements,
-                            },
-                            id: 'id',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.switch_account,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Switch to Seller",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SellerWelcome(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.help,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Contact Us",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ContactUsScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 8), // Adjust space between items
-                Container(
-                  color: Color(0xffffd7d7), // Lighter pink for the tile
-                  child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
-                    trailing: Icon(
-                      Icons.logout,
-                      size: 19,
-                      color: Color(0xff712643),
-                    ),
-                    title: Text(
-                      "Log out",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Montserrat',
-                          fontSize: 15
-
-                      ),
-                    ),
-                    onTap: () async {
-                      await FirebaseAuth.instance.signOut();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
-                    },
-                  ),
-                ),
-                // No Divider here
-              ],
+                );
+              },
             ),
           ),
-        ),
+
+
       ),
     );
   }
+}
+
+Widget _buildDrawerItem({
+  required IconData icon,
+  required String title,
+  required VoidCallback onTap,
+}) {
+  return Container(
+    color: Color(0xffffd7d7), // Lighter pink for the tile
+    child: ListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 17.0),
+      trailing: Icon(
+        icon,
+        size: 19,
+        color: Color(0xff712643),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Montserrat',
+          fontSize: 15,
+        ),
+      ),
+      onTap: onTap,
+    ),
+  );
 }

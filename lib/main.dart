@@ -1,7 +1,9 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
+import 'package:services_android_app/initialScreens/loginScreen.dart';
 
 import 'Consumer_Screens/favourites.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +16,8 @@ import 'Providers/seller_cart_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+  );
   runApp(MyApp());
 }
 
@@ -47,17 +51,17 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.purple,
               // accentColor: Colors.pink,
               inputDecorationTheme: const InputDecorationTheme(
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
+                // enabledBorder: OutlineInputBorder(
+                //   borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
+                //   borderRadius: BorderRadius.all(Radius.circular(20)),
+                // ),
+                // focusedBorder: OutlineInputBorder(
+                //   borderSide: BorderSide(width: 1, color: Color(0xffffa7a6)),
+                //   borderRadius: BorderRadius.all(Radius.circular(20)),
+                // ),
               ),
             ),
-            home: ConsumerMainPageScreen(),
+            home: LoginScreen(),
             debugShowCheckedModeBanner: false,
           );
         },

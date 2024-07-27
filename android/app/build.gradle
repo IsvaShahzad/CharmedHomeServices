@@ -64,6 +64,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
     implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.2'
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+
 }
 
 allprojects {

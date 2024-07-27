@@ -15,223 +15,194 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  bool _isObscure = true;
   final loginFormKey = GlobalKey<FormState>();
-
   final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController passwordController = TextEditingController();
-
-  ShowAlert() {
-    return showDialog(
+  void ShowAlert() {
+    showDialog(
       context: context,
-
-
       builder: (ctx) => AlertDialog(
-        title: Text("Email reset link has been sent! "),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(2), // Make the alert dialog square
+        ),
+        title: Text(
+          "Email reset link has been sent!",
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 17,
+          ),
+        ),
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                elevation: 3,
+                foregroundColor: Colors.white,
+                backgroundColor: Color(0xffcc9a9d),
+                elevation: 0, // Remove elevation from the button
                 minimumSize: const Size(150, 50),
                 maximumSize: const Size(150, 50),
-                shape: StadiumBorder(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2), // Make button square
+                ),
               ),
-              child: Text('OK',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              child: Text(
+                'OK',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
               },
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-
-  late final String id;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                  "assets/images/pastel.png"
-              ),
-              fit: BoxFit.cover
-          )
+        image: DecorationImage(
+          image: AssetImage("assets/images/page2.png"),
+          fit: BoxFit.cover,
+        ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 13,
-
-
-          shape: RoundedRectangleBorder(
-
-              borderRadius:  BorderRadius.only(
-
-                  bottomRight: Radius.circular(12),
-
-                  bottomLeft: Radius.circular(12))
-
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.transparent, Colors.transparent],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
           ),
-          title: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Forgot password",
-              style: TextStyle(color: Colors.white),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(12),
+              bottomLeft: Radius.circular(12),
             ),
           ),
           actions: <Widget>[
             IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                }),
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+            ),
           ],
         ),
-
         body: Form(
-            key: loginFormKey,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
+          key: loginFormKey,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w), // Adjust padding for responsiveness
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 80.h),
+                  const Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Forgot Password',
+                      style: TextStyle(
+                        fontSize: 30, // Make font size responsive
+                        color: Colors.white70,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat',
+                        letterSpacing: 1.1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    padding: EdgeInsets.all(20.w), // Add padding to the container
+
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60.0),
-
-                      ),
-                      SizedBox(
-                        height: 35.h,
-                      ),
-                      const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Crafty Hands✨  \nForgot Password',
-                            style: TextStyle(
-                              fontSize: 33,
-                              color: Color(0xFFAB47BC),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
-                      SizedBox(
-                        height: 43.h,
-                      ),
-                      Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.white24,
-                              border: Border.all(
-                                color: Color(0xFFAB47BC),
-                                width: 1.5,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          controller: emailController,
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white.withOpacity(0.7),
+                            hintText: 'Enter Email',
+                            hintStyle: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            RegExp regex = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
+                            if (!regex.hasMatch(value)) {
+                              return 'Enter a valid email address';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 150.h),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 5.h),
+                            child: SizedBox(
+                              width: 300.w, // Increase the width here
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Color(0xffcc9a9d),
+                                  elevation: 1,
+                                  minimumSize: Size(double.infinity, 45.h), // Make button stretch to available width
+                                  maximumSize: Size(double.infinity, 45.h),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2), // Square button
+                                  ),
+                                ),
+                                child: Text(
+                                  'Send Link',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.sp,
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  if (loginFormKey.currentState?.validate() ?? false) {
+                                    await sendPasswordResetEmail(emailController.text);
+                                    ShowAlert();
+                                  }
+                                },
                               ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: SingleChildScrollView(
-                            child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 20.0),
-                                      child: Text('Email',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ),
-                                    SizedBox(
-                                      height: 10.h,
-                                    ),
-                                    Container(
-                                      child: TextFormField(
-                                        controller: emailController,
-                                        style: TextStyle(
-                                          fontSize: 11,
-                                          color: Color(0xFF000000),
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.grey.withOpacity(0.1),
-                                          hintText: 'Enter Email',
-                                          hintStyle: TextStyle(
-                                              fontSize: 13, color: Colors.grey),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20)),
-                                            borderSide: BorderSide(
-                                                width: 3, color: Colors.grey),
-                                          ),
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              8.0, 10.0, 5.0, 10.0),
-                                        ),
-                                        validator: (value) {
-                                          RegExp regex = RegExp(
-                                              r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please Enter Some Text ';
-                                          } else if (value.length > 20) {
-                                            return 'Enter less than 20 numbers';
-                                          } else if (!regex.hasMatch(value)) {
-                                            return 'Enter according to format';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 30.h,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                                            elevation: 3,
-                                            minimumSize: const Size(200, 50),
-                                            maximumSize: const Size(200, 50),
-                                            shape: StadiumBorder(),
-                                          ),
-                                          child: Text('Send Link',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18)),
-                                          onPressed: () async {
-                                            await sendPasswordResetEmail(
-                                                emailController.text);
-                                            ShowAlert();
-
-                                            // if (loginFormKey.currentState!.validate())
-                                            //   Navigator.of(context).push(MaterialPageRoute(
-                                            //       builder: (context) => ResetScreen()));
-                                          },
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ))
-                    ])))),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
