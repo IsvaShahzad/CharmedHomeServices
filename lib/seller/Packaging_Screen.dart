@@ -45,9 +45,10 @@ class _PackagingScreenState extends State<PackagingScreen> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 7,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(12),

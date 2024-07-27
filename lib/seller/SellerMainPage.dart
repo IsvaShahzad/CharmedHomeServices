@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
 import 'package:services_android_app/Consumer_Screens/explore_consumer_screen.dart';
+import 'package:services_android_app/Consumer_Screens/posted_requirement_screen.dart';
 import '../Consumer_Screens/ContactUs.dart';
 import '../Consumer_Screens/add_requirements_consumer.dart';
 import '../Consumer_Screens/added_postings.dart';
@@ -278,7 +279,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ExploreConsumer(),
+                          builder: (context) => SellerWelcome(),
                         ),
                       );
                     },
@@ -367,24 +368,19 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       ),
                     ),
                     onTap: () async {
-                      final addedReqSnapshot = await FirebaseFirestore.instance
-                          .collection('AddRequirements')
-                          .get();
-                      final addedrequirements = addedReqSnapshot.docs
-                          .map((doc) => RequirementModel.fromJson(doc.data()))
-                          .toList();
+                      // final addedReqSnapshot = await FirebaseFirestore.instance
+                      //     .collection('AddRequirements')
+                      //     .get();
+                      // final addedrequirements = addedReqSnapshot.docs
+                      //     .map((doc) => RequirementModel.fromJson(doc.data()))
+                      //     .toList();
 
-                      // Navigator.push(
-                      //   context,
-                        // MaterialPageRoute(
-                        //   builder: (context) => PostingDisplayedScreen(
-                        //     addedposting: {
-                        //       'All Requirements': addedrequirements,
-                        //     },
-                        //     id: 'id',
-                        //   ),
-                        // ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RequirementsDisplayScreen()
+                        ),
+                      );
                     },
                   ),
                 ),

@@ -48,7 +48,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/pastel.png"),
+            image: AssetImage("assets/images/page4.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -63,13 +63,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFAB47BC),
-                                borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                ),
-                              ),
+
                               padding: EdgeInsets.symmetric(vertical: 22.0),
                               alignment: Alignment.center,
                               child: Row(
@@ -98,14 +92,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                   Padding(
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 13),
-                                    child: Text(
-                                      'Shipment Details',
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+
                                   ),
                                 ],
                               ),
@@ -116,14 +103,6 @@ class _ShippingScreenState extends State<ShippingScreen> {
                               child: Container(
                                 height: 620,
                                 width: 370,
-                                decoration: BoxDecoration(
-                                    color: Colors.white30,
-                                    border: Border.all(
-                                      color: Color(0xFFAB47BC),
-                                      width: 1.5,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
                                 child: SingleChildScrollView(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -132,16 +111,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 22.0),
-                                            child: Text('First Name',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
                                             height: 5.h,
                                           ),
@@ -155,20 +125,15 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText:
                                                     'Enter Your First name',
                                                 hintStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                fontFamily: 'Montserrat'
                                                 ),
+                                               border: InputBorder.none,
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -185,45 +150,28 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 15.0),
-                                            child: Text('Last Name',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             child: TextFormField(
                                               // keyboardType: TextInputType.emailAddress,
                                               controller: lastNameController,
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                                // fontWeight: FontWeight.w600,
-                                              ),
+
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText:
                                                     'Enter Your Last name',
                                                 hintStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                    fontFamily: 'Montserrat'
+
                                                 ),
+                                                border:InputBorder.none
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -240,18 +188,9 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Text('Email',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             child: TextFormField(
@@ -265,19 +204,15 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText: 'Enter Email',
                                                 hintStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                    fontFamily: 'Montserrat'
+
                                                 ),
+                                                border: InputBorder.none
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -295,18 +230,9 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Text('Postal Code',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             child: TextFormField(
@@ -314,25 +240,21 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                                   TextInputType.number,
                                               controller: postalCodeController,
                                               style: TextStyle(
-                                                fontSize: 15,
+                                                fontSize: 14,
                                                 color: Color(0xFF000000),
                                               ),
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText: 'Enter Postal Code',
                                                 hintStyle: TextStyle(
                                                     fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    color: Colors.grey,
+                                                    fontFamily: 'Montserrat'
+
                                                 ),
+                                                border: InputBorder.none
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -349,18 +271,9 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Text('Mobile Number',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             child: TextFormField(
@@ -374,20 +287,16 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText:
                                                     'Enter Your Mobile number',
                                                 hintStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                    fontFamily: 'Montserrat'
+
                                                 ),
+                                                border: InputBorder.none
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -404,23 +313,14 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               },
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 10.0),
-                                            child: Text('Address',
-                                                style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF000000),
-                                                    fontWeight:
-                                                        FontWeight.bold)),
-                                          ),
+
                                           SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           Container(
                                             child: TextFormField(
                                               controller: addressController,
-                                              maxLines: 2,
+                                              maxLines: 3,
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color(0xFF000000),
@@ -428,19 +328,15 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               decoration: InputDecoration(
                                                 filled: true,
                                                 fillColor: Colors.white
-                                                    .withOpacity(0.1),
+                                                    .withOpacity(0.7),
                                                 hintText: 'Enter Adress',
                                                 hintStyle: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Colors.grey),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                  borderSide: BorderSide(
-                                                      width: 3,
-                                                      color: Colors.purple),
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                    fontFamily: 'Montserrat'
+
                                                 ),
+                                                border: InputBorder.none,
                                               ),
                                               textInputAction: TextInputAction.next,
 
@@ -456,17 +352,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                             ),
                                           ),
                                           SizedBox(
-                                            height: 20.h,
-                                          ),
-                                          Text(
-                                            'Province',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            height: 5.h,
+                                            height: 10.h,
                                           ),
                                           DropdownButtonFormField(
                                             value: _selectedProvince,
@@ -480,7 +366,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                             decoration: InputDecoration(
                                               filled: true,
                                               fillColor:
-                                                  Colors.white.withOpacity(0.1),
+                                                  Colors.white.withOpacity(0.7),
                                               contentPadding:
                                                   const EdgeInsets.symmetric(
                                                 vertical: 15,
@@ -489,13 +375,7 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                               hintStyle: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.grey),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(4)),
-                                                borderSide: BorderSide(
-                                                    width: 1,
-                                                    color: Colors.orange),
-                                              ),
+                                              border: InputBorder.none
                                             ),
                                             onChanged: (selectedCategory) {
                                               setState(() {
@@ -524,10 +404,11 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                                   Text(
                                                     'Express Delivery',
                                                     style: TextStyle(
-                                                      fontSize: 15,
+                                                      fontSize: 14,
                                                       color: Color(0xFF000000),
                                                       fontWeight:
                                                           FontWeight.bold,
+                                                      fontFamily: 'Montserrat'
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -537,7 +418,8 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                                     '* 5% additional charges are applicable *',
                                                     style: TextStyle(
                                                       fontSize: 12,
-                                                      color: Colors.grey,
+                                                      color: Colors.grey[600],
+                                                      fontFamily: 'Montserrat'
                                                     ),
                                                   ),
                                                 ],
@@ -551,24 +433,25 @@ class _ShippingScreenState extends State<ShippingScreen> {
                                             alignment: Alignment.center,
                                             child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                                                  foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
-                                                  elevation: 3,
+                                                  elevation: 2,
                                                   minimumSize:
-                                                      const Size(200, 50),
+                                                      const Size(210, 50),
                                                   maximumSize:
-                                                      const Size(200, 50),
+                                                      const Size(210, 50),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10.0),
+                                                            2.0),
                                                   ),
                                                 ),
                                                 child: Text(
-                                                    'Proceed to Payment',
+                                                    'Checkout',
                                                     style: TextStyle(
                                                         fontWeight:
-                                                            FontWeight.bold,
+                                                            FontWeight.w500,
+                                                        fontFamily: 'Montserrat',
                                                         fontSize: 18)),
                                                 onPressed: () async {
                                                   print(_formKey

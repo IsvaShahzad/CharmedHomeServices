@@ -40,7 +40,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/mainpage.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -56,10 +56,10 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
               gravity: 0.1,
               shouldLoop: true,
               colors: const [
-                Colors.blue,
-                Colors.red,
-                Colors.yellow,
-                Colors.green,
+                Color(0xffcc9a9d),
+                Color(0xffdcfffb),
+                Color(0xffc1bbdd),
+                Color(0xffc1bbdd),
               ],
             ),
             Padding(
@@ -87,74 +87,68 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 80.0),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 51),
+                    SizedBox(height: 100.0),
+                    Align(
+                      alignment: Alignment.center,
                       child: Text(
-                        'Order Placed Successfully! 🎉',
+                        'Order Placed Successfully!',
+                        // textAlign: TextAlign.center, // Center the text within its bounds
                         style: TextStyle(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w500,
                           color: Colors.black87,
+                          fontFamily: 'Montserrat'
                         ),
                       ),
                     ),
-                    SizedBox(height: 100),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                    SizedBox(height: 40),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
-                            elevation: 15,
-                            minimumSize: const Size(150, 50),
-                            maximumSize: const Size(150, 50),
-                            shape: StadiumBorder(),
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SellerHomePage()));
-                          },
-                          child: Text('Go to Homepage'),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                            elevation: 12,
-                            minimumSize: const Size(160, 50),
-                            maximumSize: const Size(160, 50),
-                            shape: StadiumBorder(),
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        ConsumerMainPageScreen()));
-                          },
-                          child: Text('Continue Browsing'),
-                        ),
-                      ],
+                          elevation: 1,
+                          minimumSize: const Size(230, 50),
+                          maximumSize: const Size(230, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2.0), // Circular square shape
+                          ),                      ),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ConsumerMainPageScreen()));
+                        },
+                        child: Text('Continue Browsing', style: TextStyle(
+                          fontFamily: 'Montserrat'
+                        ),),
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text('Or', style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold
+                      ),),
                     ),
 
-                    SizedBox(height: 25),
+                    SizedBox(height: 15),
 
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                          foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
-                          elevation: 12,
-                          minimumSize: const Size(150, 50),
-                          maximumSize: const Size(150, 50),
-                          shape: StadiumBorder(),
-                        ),
+                          elevation: 1,
+                          minimumSize: const Size(230, 50),
+                          maximumSize: const Size(230, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2.0), // Circular square shape
+                          ),                      ),
                         onPressed: () {
                           showDialog(
                             context: context,
@@ -203,23 +197,25 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                           );
                         },
 
-                        child: Text('Order Status'),
+                        child: Text('Order Status', style: TextStyle(
+                          fontFamily: 'Montserrat'
+                        ),),
                       ),
                     ),
 
                     Padding(
-                      padding: EdgeInsets.only(top: 75),
+                      padding: EdgeInsets.only(top: 40),
                       child: Align(
                         alignment: Alignment.center,
                         child: Card(
-                          elevation: 14,
+                          elevation: 2,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            borderRadius: BorderRadius.circular(2.0),
                           ),
                           child: Container(
                             padding: EdgeInsets.all(16.0),
-                            width: 220.0, // Update the desired width
-                            height: 170.0, // Update the desired height
+                            width: 250.0, // Update the desired width
+                            height: 220.0, // Update the desired height
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -227,11 +223,12 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                   'Rate Us',
                                   style: TextStyle(
                                     fontSize: 24.0,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                     color: Colors.black87,
+                                    fontFamily: 'Montserrat'
                                   ),
                                 ),
-                                SizedBox(height: 16.0),
+                                SizedBox(height: 10.0),
                                 RatingBar.builder(
                                   initialRating: _rating,
                                   minRating: 1,
@@ -253,12 +250,12 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                 SizedBox(height: 16.0),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    elevation: 10,
+                                    elevation: 1,
                                     minimumSize: const Size(120, 40),
-                                    foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                                    foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
+                                      borderRadius: BorderRadius.circular(2.0),
                                     ),
                                   ),
                                   onPressed: () {
@@ -266,22 +263,27 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text("Thank you for rating! ⭐"),
+                                          title: Text("Thank you for rating! ⭐", style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 19
+                                          ),),
                                           actions: [
                                             Align(
                                               alignment: Alignment.center,
                                               child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                                                  foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
-                                                  elevation: 6,
+                                                  elevation: 1,
                                                   minimumSize: const Size(140, 45),
                                                   maximumSize: const Size(140, 45),
-                                                  shape: StadiumBorder(),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(2.0),
+                                                  ),
                                                 ),
                                                 child: Text(
                                                   'OK',
-                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                                  style: TextStyle(fontSize: 15, fontFamily: 'Montserrat'),
                                                 ),
                                                 onPressed: () {
                                                   // Store the rating in Firebase
@@ -310,7 +312,9 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                   },
 
                                   child: const Text(
-                                    'Submit',
+                                    'Submit',style: TextStyle(
+                                    fontFamily: 'Montserrat'
+                                  ),
                                   ),
                                 ),
                               ],

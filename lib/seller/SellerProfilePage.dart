@@ -36,28 +36,46 @@ class MapScreenState extends State<ProfilePage>
     return showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text("Profile updated! "),
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Profile updated!",
+            style: TextStyle(fontFamily: 'Montserrat', fontSize: 19),
+          ),
+        ),
         actions: <Widget>[
           Align(
             alignment: Alignment.center,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
+                foregroundColor: Colors.white,
+                backgroundColor: Color(0xffb38e8e),
                 elevation: 3,
                 minimumSize: const Size(150, 50),
                 maximumSize: const Size(150, 50),
-                shape: StadiumBorder(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
               ),
-              child: Text('OK',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+              child: Text(
+                'OK',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontFamily: 'Montserrat',
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ProfilePage()));
+                  MaterialPageRoute(builder: (context) => ProfilePage()),
+                );
               },
             ),
           )
         ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero, // Makes the AlertDialog square
+        ),
       ),
     );
   }
@@ -80,40 +98,43 @@ class MapScreenState extends State<ProfilePage>
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/pastel.png"),
-              fit: BoxFit.cover)),
+              image: AssetImage("assets/images/page5.png"), fit: BoxFit.cover)),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            elevation: 13,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(12),
-                    bottomLeft: Radius.circular(12))),
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(13),
+                bottomLeft: Radius.circular(12),
               ),
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => SellerHomePage()));
-              },
             ),
-            title: Text(
-              'Profile Page',
-              style: TextStyle(color: Colors.white),
+            leading: Transform.translate(
+              offset: Offset(0, -8), // Move the icon 8 pixels up
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SellerHomePage(),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           body: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/pastel.png"),
-                    fit: BoxFit.cover)),
+
             child: Form(
               // color: Colors.white,
               child: new ListView(
@@ -130,16 +151,13 @@ class MapScreenState extends State<ProfilePage>
                               child: new Stack(
                                   fit: StackFit.loose,
                                   children: <Widget>[
-
                                     Padding(
                                         padding: EdgeInsets.only(
                                             top: 90.0, right: 100.0),
                                         child: new Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-
-                                          ],
+                                          MainAxisAlignment.center,
+                                          children: <Widget>[],
                                         )),
                                   ]),
                             )
@@ -147,11 +165,7 @@ class MapScreenState extends State<ProfilePage>
                         ),
                       ),
                       new Container(
-                        decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                                image: AssetImage("assets/images/pastel.png"),
-                                fit: BoxFit.cover)),
+
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 25.0),
                           child: new Column(
@@ -165,25 +179,26 @@ class MapScreenState extends State<ProfilePage>
                                   ),
                                   child: new Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       new Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         children: <Widget>[
                                           new Text(
                                             'Personal Information',
                                             style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffb38e8e),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
                                       ),
                                       new Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        MainAxisAlignment.end,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           _status
@@ -195,21 +210,22 @@ class MapScreenState extends State<ProfilePage>
                                   )),
                               Padding(
                                   padding: EdgeInsets.only(
-                                      left: 25.0, right: 25.0, top: 65.0),
+                                      left: 25.0, right: 25.0, top: 45.0),
                                   child: new Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: <Widget>[
                                       new Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           new Text(
                                             'Name',
                                             style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffcc9a9d),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -250,15 +266,16 @@ class MapScreenState extends State<ProfilePage>
                                     children: <Widget>[
                                       new Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           new Text(
                                             'Email ID',
                                             style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffcc9a9d),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -297,15 +314,16 @@ class MapScreenState extends State<ProfilePage>
                                     children: <Widget>[
                                       new Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        MainAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
                                           new Text(
                                             'Mobile',
                                             style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffcc9a9d),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ],
@@ -349,9 +367,10 @@ class MapScreenState extends State<ProfilePage>
                                           child: new Text(
                                             'Pin Code',
                                             style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffcc9a9d),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ),
@@ -362,9 +381,10 @@ class MapScreenState extends State<ProfilePage>
                                           child: new Text(
                                             'State',
                                             style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.purple,
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xffcc9a9d),
+                                                fontFamily: 'Montserrat'
                                             ),
                                           ),
                                         ),
@@ -388,7 +408,7 @@ class MapScreenState extends State<ProfilePage>
                                             decoration: const InputDecoration(
                                                 hintText: "Enter Pin Code"),
                                             textInputAction:
-                                                TextInputAction.next,
+                                            TextInputAction.next,
                                             enabled: !_status,
                                             validator: (value) {
                                               if (value!.isEmpty) {
@@ -397,7 +417,7 @@ class MapScreenState extends State<ProfilePage>
                                               return null;
                                             },
                                             onSaved: (value) =>
-                                                _pincode = value!,
+                                            _pincode = value!,
                                           ),
                                         ),
                                         flex: 2,
@@ -454,22 +474,24 @@ class MapScreenState extends State<ProfilePage>
               padding: EdgeInsets.only(right: 10.0),
               child: Container(
                   child: new ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0),
-                        ),
-                        elevation: 5,
-                        minimumSize: const Size(130, 50),
-                        maximumSize: const Size(130, 50),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color(0xffb38e8e),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(2.0),
                       ),
-                      child: new Text("Save"),
-                      // textColor: Colors.white,
-                      // color: Colors.green,is
+                      elevation: 1,
+                      minimumSize: const Size(130, 50),
+                      maximumSize: const Size(130, 50),
+                    ),
+                    child: new Text("Save", style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Montserrat'
+                    ),),
+                    // textColor: Colors.white,
+                    // color: Colors.green,is
 
                     onPressed: saveSellerProfile,
-
                   )),
             ),
             flex: 2,
@@ -479,25 +501,24 @@ class MapScreenState extends State<ProfilePage>
               padding: EdgeInsets.only(left: 10.0),
               child: Container(
                   child: new ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(30.0),
-                  ),
-                  elevation: 3,
-                  minimumSize: const Size(130, 50),
-                  maximumSize: const Size(130, 50),
-                ),
-                child: new Text("Cancel"),
-                onPressed: () {
-                  setState(() {
-                    _status = true;
-                    FocusScope.of(context).requestFocus(new FocusNode());
-                  });
-                },
-
-              )),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Color(0xffb38e8e),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(2.0),
+                      ),
+                      elevation: 1,
+                      minimumSize: const Size(130, 50),
+                      maximumSize: const Size(130, 50),
+                    ),
+                    child: new Text("Cancel", style: TextStyle(fontFamily: 'Montserrat', fontSize: 15),),
+                    onPressed: () {
+                      setState(() {
+                        _status = true;
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                      });
+                    },
+                  )),
             ),
             flex: 2,
           ),
@@ -509,7 +530,7 @@ class MapScreenState extends State<ProfilePage>
   Widget _getEditIcon() {
     return new GestureDetector(
       child: new CircleAvatar(
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xffb38e8e),
         radius: 14.0,
         child: new Icon(
           Icons.edit,

@@ -3,6 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
 
 class RequirementsDisplayScreen extends StatelessWidget {
+
+
+
+  final List<Map<String, String>> dummyProducts = [
+    {
+      'product name': 'Sample Product 1',
+      'product price': '25.99',
+      'product quantity': '2',
+      'Contact email': 'example1@example.com',
+      'imageUrl': 'https://via.placeholder.com/150', // Example image URL
+    },
+    {
+      'product name': 'Sample Product 2',
+      'product price': '15.49',
+      'product quantity': '1',
+      'Contact email': 'example2@example.com',
+      'imageUrl': 'https://via.placeholder.com/150', // Example image URL
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +37,7 @@ class RequirementsDisplayScreen extends StatelessWidget {
             // Background image
             Positioned.fill(
               child: Image.asset(
-                'assets/images/page5.png', // Replace with your asset image path
+                'assets/images/page6.png', // Replace with your asset image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -68,6 +88,7 @@ class RequirementsDisplayScreen extends StatelessWidget {
                               final imageUrl = requirement['Image URl'];
 
                               return Card(
+                                color: Colors.white,
                                 margin: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.zero, // Square edges

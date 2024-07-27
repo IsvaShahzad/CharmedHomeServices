@@ -12,28 +12,52 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool isCheckboxChecked = false;
   final Cart _cart = Cart();
 
-
   void placeOrder() {
-    if (isCheckboxChecked != true) {
+    if (!isCheckboxChecked) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Please confirm your order by checking the checkbox.'),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(2.0), // Make the dialog more square-like
+            ),
+            title: Text(
+              'Error',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+              ),
+            ),
+            content: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.8, // Responsive width
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: Text(
+                  'Please confirm your order by checking the checkbox.',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
+              ),
+            ),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('OK'),
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                  ),
+                ),
               ),
             ],
           );
         },
       );
     } else {
-
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (BuildContext context) => DeliveredScreen()),
@@ -41,24 +65,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/page4.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40),
-            child: Text('Payment Method'),
-          ),
+          backgroundColor: Colors.transparent,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
@@ -71,20 +93,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05), // Responsive padding
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 40.0),
+              SizedBox(height: screenHeight * 0.05), // Responsive spacing
               Text(
                 'Select a Payment Method',
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.05, // Responsive font size
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Montserrat',
+                  color: Colors.black87,
                 ),
               ),
-              SizedBox(height: 16.0),
-              ElevatedCard(
+              SizedBox(height: screenHeight * 0.02),
+              Card(
+                elevation: 1.0, // Set the elevation to a smaller value
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                ),
                 child: ListTile(
                   leading: Checkbox(
                     value: isCheckboxChecked,
@@ -94,47 +122,59 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       });
                     },
                   ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Cash on Delivery',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  title: Text(
+                    'Cash on Delivery',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Montserrat',
+                      fontSize: screenWidth * 0.045, // Responsive font size
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
-                '* Parcel will be delivered at your doorstep, tip the rider! *',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.blueGrey,
-                ),
-              ),
-              SizedBox(height: 120),
+              SizedBox(height: screenHeight * 0.02),
               Align(
                 alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: () {
-                    placeOrder();
-
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFAB47BC),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 10.0, // Elevation of the button
+                child: Text(
+                  '*Parcel delivered to your door. Tip the rider!*',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.035, // Responsive font size
+                    color: Colors.blueGrey,
+                    fontFamily: 'Montserrat',
                   ),
-                  child: Text(
-                    'Place Order',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                ),
+              ),
+            SizedBox(
+              height: 120,
+            ),
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: double.infinity, // Full width of the parent
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0), // Responsive padding
+                    child: ElevatedButton(
+                      onPressed: () {
+                        placeOrder();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xffcc9a9d),
+                        padding: EdgeInsets.symmetric(vertical: screenHeight * 0.02), // Responsive padding
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0),
+                        ),
+                        elevation: 1.0, // Elevation of the button
+                      ),
+                      child: Text(
+                        'Place Order',
+                        style: TextStyle(
+                          fontSize: screenWidth * 0.045, // Responsive font size
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -155,9 +195,9 @@ class ElevatedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4.0,
+      elevation: 2.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(1.0),
       ),
       child: Padding(
         padding: EdgeInsets.all(8.0),

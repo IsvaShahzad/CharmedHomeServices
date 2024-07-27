@@ -7,7 +7,7 @@ import '../seller/cart.dart';
 import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import '../Consumer_Screens/Consumer_Profile.dart';
 import '../subcategory_screen/subcategoriesnew.dart';
-import 'posted_required_screen.dart';
+import 'posted_requirement_screen.dart';
 import 'explore_consumer_screen.dart';
 import 'add_requirements_consumer.dart';
 import 'added_postings.dart';
