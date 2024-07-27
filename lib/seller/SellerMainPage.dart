@@ -68,7 +68,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SellerPortfolio()),
+        MaterialPageRoute(builder: (context) => ProfilePage()),
       );
     }
   }
@@ -78,27 +78,23 @@ class _SellerHomePageState extends State<SellerHomePage> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/mainpage.png"),
           fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 13,
+          backgroundColor: Colors.transparent,
+
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(12),
               bottomLeft: Radius.circular(12),
             ),
           ),
-          title: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
+
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -121,10 +117,16 @@ class _SellerHomePageState extends State<SellerHomePage> {
 
           ],
         ),
+
         body: Padding(
           padding: EdgeInsets.all(10),
-          child: GridView.count(
+      child: SizedBox(
+        child: Padding(
+          padding: EdgeInsets.only(top: 130), // Add padding here
+          child:
+          GridView.count(
             crossAxisCount: 2,
+
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 10.0,
             children: <Widget>[
@@ -136,11 +138,12 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     context,
                     MaterialPageRoute(builder: (context) => AddProduct()),
                   );
-                }, imageUrl: '',
+                },
+                imageUrl: 'assets/images/addproduct.jpg',
               ),
               _buildGridTile(
-                title: 'Show Requirements/Postings',
-                icon: Icons.calendar_view_month_rounded,
+                title: 'Help',
+                icon: Icons.help,
                 onTap: () async {
                   final addedReqSnapshot = await FirebaseFirestore.instance
                       .collection('AddRequirements')
@@ -149,31 +152,28 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       .map((doc) => RequirementModel.fromJson(doc.data()))
                       .toList();
 
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => PostingDisplayedScreen(
-                  //       addedposting: {
-                  //         'All Requirements': addedrequirements,
-                  //       },
-                  //       id: 'id',
-                  //     ),
-                  //   ),
-                  // );
-                }, imageUrl: '',
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactUsScreen()
+                    ),
+                  );
+                },
+                imageUrl: 'assets/images/help.jpg',
               ),
               _buildGridTile(
-                title: 'Added Products',
+                title: 'Packaging',
                 icon: Icons.check_box,
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => PackagingScreen()),
                   );
                 },
-                imageUrl: 'assets/images/baking.jpeg', // Replace with your asset image path
+                imageUrl:
+                'assets/images/packaging.avif', // Replace with your asset image path
               ),
-
               _buildGridTile(
                 title: 'Portfolio',
                 icon: Icons.folder,
@@ -182,13 +182,14 @@ class _SellerHomePageState extends State<SellerHomePage> {
                     context,
                     MaterialPageRoute(builder: (context) => SellerPortfolio()),
                   );
-                }, imageUrl: '',
+                },
+                imageUrl: 'assets/images/portfolio.jpeg',
               ),
-
-
             ],
           ),
         ),
+      ),
+    ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -201,12 +202,12 @@ class _SellerHomePageState extends State<SellerHomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Portfolio',
+              label: 'Profile',
             ),
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          backgroundColor: Color(0xffffa7a6), // Background color of the bottom navigation bar
+          backgroundColor: Color(0xfff4b7be), // Background color of the bottom navigation bar
           selectedItemColor: Colors.white, // Color of the selected item
           unselectedItemColor: Color(0xffffd7d7), // Color of the unselected items
         ),
@@ -214,18 +215,18 @@ class _SellerHomePageState extends State<SellerHomePage> {
         drawer: Drawer(
           child: Container(
             decoration: BoxDecoration(
-              color: Color(0xffffa7a6), // Set the background color to pink hex code
+              color: Color(0xfff4b7be), // Set the background color to pink hex code
             ),
             child: ListView(
               padding: EdgeInsets.zero, // Ensure no padding at the top
               children: <Widget>[
                 Container(
-                  color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                  color: Color(0xfff4b7be), // Header color set to #FFA7A6
                   child: Column(
                     children: <Widget>[
                       DrawerHeader(
                         decoration: BoxDecoration(
-                          color: Color(0xffffa7a6), // Header color set to #FFA7A6
+                          color: Color(0xfff4b7be), // Header color set to #FFA7A6
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -238,7 +239,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              'Welcome $userFirstName',
+                              'Welcome, $userFirstName',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18, // Smaller font size
@@ -358,7 +359,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       color: Color(0xff712643),
                     ),
                     title: Text(
-                      "View posted requirements",
+                      "View Posted Requirements",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -456,7 +457,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       color: Color(0xff712643),
                     ),
                     title: Text(
-                      "Contac us/Help",
+                      "Contact Us/Help",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -486,7 +487,7 @@ class _SellerHomePageState extends State<SellerHomePage> {
                       color: Color(0xff712643),
                     ),
                     title: Text(
-                      "Log out",
+                      "Log Out",
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -517,82 +518,55 @@ class _SellerHomePageState extends State<SellerHomePage> {
     required String title,
     required IconData icon,
     required VoidCallback onTap,
-    required String imageUrl, // Make imageUrl a required parameter
+    required String imageUrl,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: GridTile(
-        child: Container(
-          // Set the size constraints for the container
-          constraints: BoxConstraints.expand(),
-          child: AspectRatio(
-            aspectRatio: 1, // Use 1:1 aspect ratio for a square grid tile
-            child: Image.asset(
-              imageUrl,
-              fit: BoxFit.cover, // Ensures the image covers the entire tile
+    return Material(
+      elevation: 8.0, // Adjust the elevation as needed
+      borderRadius: BorderRadius.circular(2.0),
+      child: InkWell(
+        onTap: onTap,
+        child: GridTile(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2.0),
+              image: DecorationImage(
+                image: AssetImage(imageUrl),
+                fit: BoxFit.cover, // Ensures the image covers the entire tile
+              ),
+            ),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.black38, // Background color of the strip
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(2.0),
+                    bottomRight: Radius.circular(2.0),
+                  ),
+                ),
+                padding: EdgeInsets.all(8.0), // Padding around the text
+                child: Row(
+                  children: <Widget>[
+                    Icon(icon, color: Colors.white),
+                    SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis, // Ensure text does not overflow
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-        footer: GridTileBar(
-          backgroundColor: Colors.black54,
-          title: Text(title),
-          leading: Icon(icon, color: Colors.white),
-        ),
       ),
-    );
-  }
-
-
-
-  Widget _buildConsumerGridTile({
-    required String title,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        color: Colors.white,
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(icon, size: 50),
-              SizedBox(height: 10),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDrawerTile({
-    required String title,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.white),
-      title: Text(
-        title,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 16,
-        ),
-      ),
-      onTap: onTap,
     );
   }
 }
+

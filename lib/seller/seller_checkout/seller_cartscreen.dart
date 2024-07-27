@@ -54,12 +54,7 @@ class _CartScreenState extends State<CartScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => ConsumerMainPageScreen(),
-                  ),
-                );
+                Navigator.of(context).pop();
               },
             ),
             elevation: 0, // Adds shadow for depth

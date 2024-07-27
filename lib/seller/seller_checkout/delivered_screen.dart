@@ -159,9 +159,9 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                     Text(
                                       "Your order will be delivered in 40 minutes!⏳",
                                       style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17.0,
                                         color: Colors.black87,
+                                        fontFamily: 'Montserrat'
                                       ),
                                     ),
 
@@ -172,18 +172,21 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                                     alignment: Alignment.center,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                                        foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
                                         elevation: 6,
                                         minimumSize: const Size(140, 45),
                                         maximumSize: const Size(140, 45),
-                                        shape: StadiumBorder(),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(0.0), // Square shape
+                                        ),
                                       ),
                                       child: Text(
                                         'OK',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 15,
+                                          fontFamily: 'Montserrat'
                                         ),
                                       ),
                                       onPressed: () {

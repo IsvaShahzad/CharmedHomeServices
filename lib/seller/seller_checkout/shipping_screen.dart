@@ -9,7 +9,7 @@ import '../../Providers/seller_cart_provider.dart';
 import 'seller_cartscreen.dart' as cartscreen;
 import 'package:flutter/services.dart';
 
-import '../../Detail_Screens/Packages_DetailScreen/box_detailscreen.dart';
+import '../../Detail_Screens/Packages_DetailScreen/package_detail.dart';
 import '../../initialScreens/loginScreen.dart';
 import 'payment_screen.dart';
 

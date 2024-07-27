@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                 // ),
               ),
             ),
-            home: ProfilePage(),
+            home: LoginScreen(),
             debugShowCheckedModeBanner: false,
           );
         },

@@ -10,13 +10,13 @@ import '../../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import 'package:badges/badges.dart' as badges;
 
 
-class Box_DetailScreen extends StatefulWidget {
+class PackageDetailScreen extends StatefulWidget {
   final String packageName;
   final double packagePrice;
   final String packageDescription;
   final String packageImageURL;
 
-  const Box_DetailScreen({
+  const PackageDetailScreen({
     Key? key,
     required this.packageName,
     required this.packagePrice,
@@ -25,10 +25,10 @@ class Box_DetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Box_DetailScreen> createState() => _Box_DetailScreenState();
+  State<PackageDetailScreen> createState() => _PackageDetailScreenState();
 }
 
-class _Box_DetailScreenState extends State<Box_DetailScreen> {
+class _PackageDetailScreenState extends State<PackageDetailScreen> {
   int _quantity = 1;
   bool _isFavorite = false;
 
@@ -36,7 +36,9 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
 
   void showCartMessage(BuildContext context) {
     final snackBar = SnackBar(
-      content: Text('Added to Cart'),
+      content: Text('Added to Cart', style: TextStyle(
+        fontFamily: 'Montserrat',
+      ),),
       duration: Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -47,8 +49,7 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
     return Scaffold(
 
       appBar: AppBar(
-        title: Text(widget.packageName),
-        centerTitle: true,
+        backgroundColor: Colors.white,
         actions: [
           Center(
             child: Padding(
@@ -82,21 +83,22 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       body: Container(
         padding: EdgeInsets.only(top: 60.0),
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/pastel.png"),
-            fit: BoxFit.cover,
-          ),
+          // image: DecorationImage(
+          //   // image: AssetImage("assets/images/pastel.png"),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           body: CustomScrollView(
             slivers: [
               SliverAppBar(
+                backgroundColor: Colors.transparent,
                 automaticallyImplyLeading: false,
                 expandedHeight: 250.0,
                 flexibleSpace: FlexibleSpaceBar(
@@ -119,6 +121,8 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
+                            fontFamily: 'Montserrat'
+
                         ),
                       ),
                     ),
@@ -128,7 +132,8 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
                       child: Text(
                         ' ${widget.packageDescription}',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 17.0,
+                          fontFamily: 'Montserrat'
                         ),
                       ),
                     ),
@@ -136,9 +141,11 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Rs.${widget.packagePrice}',
+                          'Rs.${widget.packagePrice.toInt()}',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 17.0,
+                            fontFamily: 'Montserrat'
+
                         ),
                       ),
                     ),
@@ -181,18 +188,19 @@ class _Box_DetailScreenState extends State<Box_DetailScreen> {
                               'Add to Cart',
                               style: TextStyle(
                                 fontSize: 16.0,
+                                fontFamily: 'Montserrat'
                               ),
                             ),
                           ],
                         ),
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
+                          foregroundColor: Colors.white, backgroundColor: Color(0xffcc9a9d),
 
-                          elevation: 6,
-                          minimumSize: const Size(200, 50),
-                          maximumSize: const Size(200, 50),
+                          elevation: 1,
+                          minimumSize: const Size(240, 50),
+                          maximumSize: const Size(240, 50),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            borderRadius: BorderRadius.circular(2.0),
                           ),
                         ),
                       ),

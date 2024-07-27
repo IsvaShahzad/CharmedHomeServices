@@ -314,7 +314,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                                         ? 20
                                         : 10), // Responsive space
                                 Text(
-                                  'Welcome $userFirstName',
+                                  'Welcome, $userFirstName',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: isWideScreen
@@ -352,7 +352,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                     SizedBox(height: 8), // Space between items
                     _buildDrawerItem(
                       icon: Icons.home,
-                      title: "Home Page",
+                      title: "Home ",
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
@@ -365,7 +365,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                     SizedBox(height: 8), // Space between items
                     _buildDrawerItem(
                       icon: Icons.post_add,
-                      title: "Add requirements/Postings",
+                      title: "Add Requirements/ Postings",
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
@@ -378,7 +378,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                     SizedBox(height: 8), // Space between items
                     _buildDrawerItem(
                       icon: Icons.calendar_view_month_rounded,
-                      title: "View posted requirements",
+                      title: "View Posted Requirements",
                       onTap: () async {
                         final addedReqSnapshot = await FirebaseFirestore
                             .instance
@@ -424,7 +424,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                     SizedBox(height: 8), // Space between items
                     _buildDrawerItem(
                       icon: Icons.logout,
-                      title: "Log out",
+                      title: "Log Out",
                       onTap: () async {
                         await FirebaseAuth.instance.signOut();
                         Navigator.pushReplacement(

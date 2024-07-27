@@ -240,10 +240,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 color: Color(0xffb38e8e),
               ),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
-                );
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+                // );
+
+                Navigator.of(context).pop();
               },
             ),
           ),
