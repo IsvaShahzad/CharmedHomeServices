@@ -84,6 +84,8 @@ class _AddProductState extends State<AddProduct> {
     'Pizza',
     'Cupcake',
   ];
+  List<String> subcategoryImagesList = []; // List to store image paths
+
   late String _selectedCategory;
 
   // List<String> subcategoryOptions = [];
@@ -102,6 +104,7 @@ class _AddProductState extends State<AddProduct> {
     } else {
       subcategoryOptions = [];
     }
+
   }
 
   @override

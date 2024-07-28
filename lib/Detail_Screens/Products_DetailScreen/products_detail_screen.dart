@@ -4,44 +4,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Consumer_Screens/favourites.dart';
-import '../../Providers/seller_cart_provider.dart';
-import '../../initialScreens/loginScreen.dart';
-import '../../seller/cart.dart';
-import '../../seller/cart_items.dart';
-import '../../seller/seller_portfolio.dart';
-import '../../seller/cart.dart' as cartt;
-import '../../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
+import '../../../Consumer_Screens/favourites.dart';
+import '../../../Providers/seller_cart_provider.dart';
+import '../../../initialScreens/loginScreen.dart';
+import '../../../seller/cart.dart';
+import '../../../seller/cart_items.dart';
+import '../../../seller/seller_portfolio.dart';
+import '../../../seller/cart.dart' as cartt;
+import '../../../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import 'package:badges/badges.dart' as badges;
 
-
-
-class QuiltingDetailScreen extends StatefulWidget {
+class ProductDetailScreen extends StatefulWidget {
   final String productName;
+  final String id;
   final double productPrice;
   final String productDescription;
   final String ImageURL;
   final String companyName;
 
-
-  const QuiltingDetailScreen({
+  const ProductDetailScreen({
     Key? key,
     required this.productName,
+    required this.id,
     required this.productPrice,
     required this.productDescription,
     required this.ImageURL,
     required this.companyName,
-
   }) : super(key: key);
 
   @override
-  State<QuiltingDetailScreen> createState() => _QuiltingDetailScreenState();
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
-  int _quantity = 1;
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool _isFavorite = false;
+  late SharedPreferences _prefs;
+
   @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((prefs) {
+      setState(() {
+        _prefs = prefs;
+        String key = '${widget.productName}_${widget.productPrice}';
+
+        _isFavorite = _prefs.getBool(key) ?? false;
+      });
+    });
+  }
 
   void navigateToSellerPortfolio(BuildContext context) {
     Navigator.push(
@@ -50,13 +60,15 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
     );
   }
 
-
   void showCartMessage(BuildContext context) {
     final snackBar = SnackBar(
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Added to Cart'),
+          Text(
+            'Added to Cart',
+            style: TextStyle(fontFamily: 'Montserrat'),
+          ),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -71,14 +83,12 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
             },
             child: Text(
               'Go to Cart',
-              style: TextStyle(
-                color: Colors.blue,
-              ),
+              style: TextStyle(color: Colors.blue, fontFamily: 'Montserrat'),
             ),
           ),
         ],
       ),
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 5),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
@@ -87,6 +97,7 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController urlController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final favoriteProductsModel =
@@ -100,8 +111,11 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                // leading: Icon(Icons.favorite),
-                title: Text('❤         Favourites '),
+                leading: Icon(Icons.favorite_border),
+                title: Text(
+                  'Favourites',
+                  style: TextStyle(fontFamily: 'Montserrat'),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -118,7 +132,10 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
               ),
               ListTile(
                 leading: Icon(Icons.logout),
-                title: Text('Logout'),
+                title: Text(
+                  'Logout',
+                  style: TextStyle(fontFamily: 'Montserrat'),
+                ),
                 onTap: () {
                   // Perform the logout action
                   Navigator.push(
@@ -135,64 +152,75 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
 
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/images/pastel.png"),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.companyName ??'' ),
-          centerTitle: true,
-          actions: [
-            Center(
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => cartscreen.CartScreen(
-                                cart: Provider.of<cartt.Cart>(context,
-                                    listen: false),
-                                cartProvider: Provider.of<CartProvider>(
-                                    context,
-                                    listen: false),
-                              )));
-                    },
-                    child: badges.Badge(
-                      child: Icon(Icons.shopping_bag_outlined),
-                      badgeContent: Consumer<CartProvider>(
-                        builder: (context, cartProvider, child) {
-                          return Text(
-                            cartProvider.counter.toString(),
-                            style: TextStyle(color: Colors.white),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.more_vert),
-                    onPressed: () {
-                      _showFavoriteOptions(context);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+        image: DecorationImage(
+          image: AssetImage("assets/images/pastel.png"),
+          fit: BoxFit.cover,
         ),
-        backgroundColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
               automaticallyImplyLeading: false,
               expandedHeight: 250.0,
-              flexibleSpace:
-              FlexibleSpaceBar(
-                background: Image.network(
-                  widget.ImageURL,
-                  fit: BoxFit.cover,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      widget.ImageURL,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      top: 30.0,
+                      left: 10.0,
+                      right: 10.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => cartscreen.CartScreen(
+                                        cart: Provider.of<cartt.Cart>(context, listen: false),
+                                        cartProvider: Provider.of<CartProvider>(context, listen: false),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: badges.Badge(
+                                  child: Icon(Icons.shopping_bag_outlined, color: Colors.white),
+                                  badgeContent: Consumer<CartProvider>(
+                                    builder: (context, cartProvider, child) {
+                                      return Text(
+                                        cartProvider.counter.toString(),
+                                        style: TextStyle(color: Colors.white),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.more_vert, color: Colors.white),
+                                onPressed: () {
+                                  _showFavoriteOptions(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -200,18 +228,15 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 25.h,
-                  ),
+                  SizedBox(height: 25.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 11.0),
                     child: Text(
                       widget.productName,
                       style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87
-                        // decoration: TextDecoration.underline,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
@@ -227,9 +252,9 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
                   ),
                   SizedBox(height: 10.0),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Text(
-                      'Rs.${widget.productPrice}',
+                      'Rs.${widget.productPrice.toStringAsFixed(0)}',
                       style: TextStyle(
                         fontSize: 18.0,
                       ),
@@ -240,10 +265,7 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () async {
-
-
                         setState(() {
-
                           CartItem item = CartItem(
                             name: widget.productName,
                             price: widget.productPrice,
@@ -254,22 +276,8 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
                               .addCartItem(item);
 
                           showCartMessage(context);
-                          print(
-                              'Added to cart: $item'); // Print the item to the console
+                          print('Added to cart: $item');
                         });
-
-
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => cartscreen.CartScreen(
-                        //       cart: Provider.of<cartt.Cart>(context,
-                        //           listen: false),
-                        //       cartProvider: Provider.of<CartProvider>(context),
-                        //     ),
-                        //   ),
-                        // );
                       },
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -280,18 +288,19 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
                             'Add to Cart',
                             style: TextStyle(
                               fontSize: 16.0,
+                              fontFamily: 'Montserrat',
                             ),
                           ),
                         ],
                       ),
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Color(0xFFAB47BC),
-
-                        elevation: 6,
+                        foregroundColor: Colors.white,
+                        backgroundColor: Color(0xffcc9a9d),
+                        elevation: 2,
                         minimumSize: const Size(200, 50),
                         maximumSize: const Size(200, 50),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
+                          borderRadius: BorderRadius.circular(2.0),
                         ),
                       ),
                     ),
@@ -304,25 +313,10 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
         floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // Add some spacing between the icons
-            // FloatingActionButton.extended(
-            //   onPressed: () {
-            //     navigateToSellerPortfolio(context);
-            //   },
-            //   icon: Icon(Icons.person),
-            //   label: Text('Seller Portfolio'),
-            //   backgroundColor: Colors.white,
-            //   foregroundColor: Color(0xFFAB47BC),
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.circular(20.0),
-            //   ),
-            // ),
             SizedBox(width: 75.0),
-
             FloatingActionButton(
-              child: _isFavorite
-                  ? Icon(Icons.favorite)
-                  : Icon(Icons.favorite_border),
+              elevation: 2.0,
+              child: _isFavorite ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
               onPressed: () {
                 setState(() {
                   _isFavorite = !_isFavorite;
@@ -335,29 +329,25 @@ class _QuiltingDetailScreenState extends State<QuiltingDetailScreen> {
                   productPrice: widget.productPrice,
                 );
 
-                // Add the product to favorites
+                // Add or remove from favorites
                 if (_isFavorite) {
                   favoriteProductsModel.addFavoriteProduct(product);
+                  _prefs.setBool('${widget.productName}_${widget.productPrice}', true);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Added to favorites'),
-                      duration: Duration(seconds: 2),
-                    ),
+                    SnackBar(content: Text('Added to favorites')),
                   );
                 } else {
                   favoriteProductsModel.removeFavoriteProduct(product);
+                  _prefs.setBool('${widget.productName}_${widget.productPrice}', false);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Removed from favorites'),
-                      duration: Duration(seconds: 2),
-                    ),
+                    SnackBar(content: Text('Removed from favorites')),
                   );
                 }
               },
               backgroundColor: Colors.white,
               foregroundColor: Colors.red,
             ),
-            SizedBox(width: 10.0),
+            SizedBox(width: 8.0),
           ],
         ),
       ),

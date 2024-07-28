@@ -8,13 +8,11 @@ import 'package:provider/provider.dart';
 import '../initialScreens/loginScreen.dart';
 import '../main.dart';
 
-//
 class Product with ChangeNotifier {
   final String ImageURL;
   final String productName;
   final String productDescription;
   final double productPrice;
-
 
   Product({
     required this.ImageURL,
@@ -22,13 +20,29 @@ class Product with ChangeNotifier {
     required this.productDescription,
     required this.productPrice,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+          other is Product &&
+              runtimeType == other.runtimeType &&
+              ImageURL == other.ImageURL &&
+              productName == other.productName &&
+              productDescription == other.productDescription &&
+              productPrice == other.productPrice;
+
+  @override
+  int get hashCode =>
+      ImageURL.hashCode ^
+      productName.hashCode ^
+      productDescription.hashCode ^
+      productPrice.hashCode;
 }
 
 class FavouriteProductPageProvider extends ChangeNotifier {
   List<Product> _favoriteProducts = [];
 
   List<Product> get favoriteProducts => _favoriteProducts;
-
 
   bool isFavorite(Product product) {
     return _favoriteProducts.contains(product);
@@ -49,8 +63,6 @@ class FavouriteProductPageProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-
 }
 
 class FavoriteProductsPage extends StatefulWidget {
@@ -77,15 +89,21 @@ class _FavoriteProductsPageState extends State<FavoriteProductsPage> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/images/pastel.png"),
+          image: AssetImage("assets/images/page8.png"),
           fit: BoxFit.cover,
         ),
       ),
-
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          elevation: 13,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomRight: Radius.circular(12),
@@ -108,13 +126,6 @@ class _FavoriteProductsPageState extends State<FavoriteProductsPage> {
               },
             ),
           ],
-          title: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "Favourites  ❤ ",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
         ),
         body: Container(
           child: Padding(
@@ -125,88 +136,79 @@ class _FavoriteProductsPageState extends State<FavoriteProductsPage> {
                 Expanded(
                   child: model.favoriteProducts.isEmpty
                       ? Center(
-                          child: Text(
-                            "No products added",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount:model.favoriteProducts.length,
-                          itemBuilder: (context, index) {
-                            print(
-                                'favoriteProducts length: ${model.favoriteProducts.length}');
+                    child: Text(
+                      "No products added",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: 'Montserrat'
+                      ),
+                    ),
+                  )
+                      : GridView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    gridDelegate:
+                    SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Two products per row
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.8, // Adjust to fit your design
+                    ),
+                    itemCount: model.favoriteProducts.length,
+                    itemBuilder: (context, index) {
+                      final product = model.favoriteProducts[index];
 
+                      return Card(
 
-
-                            final product = model.favoriteProducts[index];
-
-
-                            return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 60),
-                                child: Card(
-                                  elevation: 5,
-                                  color: Colors
-                                      .white70, // add some elevation to create a shadow effect
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        10.0), // round the edges of the card
-                                    side: BorderSide(
-                                        width: 1, color: Colors.grey),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(0),
-                                            topRight: Radius.circular(0),
-                                          ),
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.network(
-                                          product?.ImageURL ?? '',
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      ListTile(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 5),
-                                        title: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                product.productName ?? '',
-                                                style: TextStyle(fontSize: 16),
-                                              ),
-                                            ),
-                                            Text(
-                                              '\Rs.${product?.productPrice ?? ''}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        subtitle: Text(
-                                          product?.productDescription ?? '',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                          },
+                        elevation: 2,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0),
                         ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(2),
+                              ),
+                              child: Image.network(
+                                product.ImageURL,
+                                height: 120, // Adjust the height to fit the grid
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    product.productName,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Rs.${product.productPrice.toStringAsFixed(0)}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

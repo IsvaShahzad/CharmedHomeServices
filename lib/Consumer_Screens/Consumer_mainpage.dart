@@ -179,7 +179,8 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                                 builder: (context) => SubcategoryScreen(
                                   categoryName: data['name'], // Category name
                                   subcategories:
-                                      subcategories, // Pass the list of subcategories
+                                      subcategories,
+                                  // Pass the list of subcategories
                                 ),
                               ));
                             },

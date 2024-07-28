@@ -7,7 +7,6 @@ import '../../../seller/cart.dart' as cartt;
 import '../../../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import 'package:provider/provider.dart';
 
-
 import '../Providers/seller_cart_provider.dart';
 
 class SubcategoryScreen extends StatelessWidget {
@@ -23,61 +22,96 @@ class SubcategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(categoryName),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              // Navigate to the cart screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => cartscreen.CartScreen(
-                    cart: Provider.of<cartt.Cart>(context, listen: false),
-                    cartProvider: Provider.of<cartprovider.CartProvider>(context, listen: false),
-                  ),
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          // Background image
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/page8.png'), // Update with your image path
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          // Column for app bar and list
+          Column(
+            children: [
+              // App bar
+              AppBar(
+                backgroundColor: Colors.transparent, // Make app bar transparent
+                elevation: 0, // Remove app bar shadow
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white), // Set back button color to white
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Navigate back
+                  },
                 ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8.0,
-            mainAxisSpacing: 8.0,
-          ),
-          itemCount: subcategories.length,
-          itemBuilder: (context, index) {
-            final subcategory = subcategories[index];
-
-            return GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ProductListScreen(
-                    categoryName: categoryName,
-                    subcategoryName: subcategory,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart, color: Colors.white), // Change icon color
+                    onPressed: () {
+                      // Navigate to the cart screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => cartscreen.CartScreen(
+                            cart: Provider.of<cartt.Cart>(context, listen: false),
+                            cartProvider: Provider.of<cartprovider.CartProvider>(context, listen: false),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ));
-              },
-              child: GridTile(
-                child: Card(
-                  elevation: 5,
-                  child: Center(
-                    child: Text(
-                      subcategory,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
+                ],
+              ),
+              // Add padding to move the list tiles down
+              SizedBox(height: 70.0), // Adjust the height value as needed
+              // List view with subcategories
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(1.0),
+                  child: ListView.builder(
+                    itemCount: subcategories.length,
+                    itemBuilder: (context, index) {
+                      final subcategory = subcategories[index];
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ProductListScreen(
+                              categoryName: categoryName,
+                              subcategoryName: subcategory,
+                            ),
+                          ));
+                        },
+                        child: Card(
+                          color: Colors.white,
+                          elevation: 1,
+                          margin: EdgeInsets.symmetric(vertical: 2.0),
+                          child: ListTile(
+                            title: Text(
+                              subcategory,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                            tileColor: Colors.white,
+                            contentPadding: EdgeInsets.all(6.0),
+                            trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
