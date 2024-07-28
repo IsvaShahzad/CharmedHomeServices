@@ -39,36 +39,48 @@ class ProductsScreen extends StatelessWidget {
 
           final products = snapshot.data!;
 
-          return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
-            ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              // Determine the number of columns based on screen width
+              int crossAxisCount = constraints.maxWidth > 600 ? 3 : 2;
+              double aspectRatio = constraints.maxWidth > 600 ? 1.2 : 1.0;
 
-              return GridTile(
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.network(
-                        product['image'], // Ensure your product has an 'image' field
-                        fit: BoxFit.cover,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          product['name'], // Ensure your product has a 'name' field
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                  childAspectRatio: aspectRatio,
                 ),
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+
+                  return GridTile(
+                    child: Card(
+                      elevation: 5,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Image.network(
+                              product['image'], // Ensure your product has an 'image' field
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              product['name'], // Ensure your product has a 'name' field
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               );
             },
           );

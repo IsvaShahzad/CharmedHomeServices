@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-import '../initialScreens/ContinueAsConsumerOrSellerScreen.dart';
-import '../initialScreens/loginScreen.dart';
+import '../InitialScreens/ContinueAsConsumerOrSellerScreen.dart';
 import 'SellerMainPage.dart';
 
 class SellerWelcome extends StatefulWidget {

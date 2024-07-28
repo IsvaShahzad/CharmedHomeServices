@@ -60,9 +60,9 @@ class _ContinueAsScreenState extends State<ContinueAsScreen> {
                   ),
                 ),
                 DropdownMenuItem<String>(
-                  value: 'Urdu',
+                  value: 'German',
                   child: Text(
-                    'Urdu',
+                    'German',
                     style: TextStyle(fontFamily: 'Montserrat'),
                   ),
                 ),
@@ -72,7 +72,7 @@ class _ContinueAsScreenState extends State<ContinueAsScreen> {
                 onLanguageSelected(value!);
                 speakText(
                   'Choose the seller account or the consumer account to continue',
-                  value == 'Urdu' ? 'ur' : 'en',
+                  value == 'German' ? 'de' : 'en',
                 );
               },
             ),

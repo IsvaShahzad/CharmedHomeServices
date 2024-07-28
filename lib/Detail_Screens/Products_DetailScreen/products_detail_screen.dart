@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Consumer_Screens/favourites.dart';
 import '../../../Providers/seller_cart_provider.dart';
-import '../../../initialScreens/loginScreen.dart';
-import '../../../seller/cart.dart';
 import '../../../seller/cart_items.dart';
 import '../../../seller/seller_portfolio.dart';
 import '../../../seller/cart.dart' as cartt;
 import '../../../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
 import 'package:badges/badges.dart' as badges;
+
+import '../../InitialScreens/loginScreen.dart';
+
 
 class ProductDetailScreen extends StatefulWidget {
   final String productName;
@@ -256,7 +257,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Text(
-                      'Rs.${widget.productPrice.toStringAsFixed(0)}',
+                      '\£${widget.productPrice.toStringAsFixed(0)}',
                       style: TextStyle(
                         fontSize: 18.0,
                           fontFamily: 'Montserrat'

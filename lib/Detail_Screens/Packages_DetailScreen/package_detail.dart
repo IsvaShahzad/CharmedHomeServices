@@ -141,7 +141,7 @@ class _PackageDetailScreenState extends State<PackageDetailScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                          'Rs.${widget.packagePrice.toInt()}',
+                        '£${widget.packagePrice.toInt()}',  // Use the pound sign
                         style: TextStyle(
                           fontSize: 17.0,
                             fontFamily: 'Montserrat'

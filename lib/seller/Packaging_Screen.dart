@@ -173,7 +173,7 @@ class CardWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "\Rs.${price.toStringAsFixed(2)}",
+                    "\£${price.toStringAsFixed(2)}",
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 12,

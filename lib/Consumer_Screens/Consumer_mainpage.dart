@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import '../initialScreens/loginScreen.dart';
 import '../Providers/seller_cart_provider.dart';
 import '../seller/cart.dart';
 import '../seller/seller_checkout/seller_cartscreen.dart' as cartscreen;
@@ -12,7 +13,6 @@ import 'explore_consumer_screen.dart';
 import 'add_requirements_consumer.dart';
 import 'added_postings.dart';
 import 'ContactUs.dart';
-import '../initialScreens/loginScreen.dart';
 import '../../seller/sellerwelcome.dart';
 import 'package:services_android_app/seller/cart.dart' as cartt;
 

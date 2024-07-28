@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../Consumer_Screens/Consumer_mainpage.dart';
+import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
 import 'delivered_screen.dart';
 import '../../Providers/seller_cart_provider.dart' as cartprovider;
 import '../cart.dart';
@@ -33,9 +32,19 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+    );
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/page6.png"),
@@ -45,19 +54,20 @@ class _CartScreenState extends State<CartScreen> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-
-            backgroundColor: Colors.transparent, // Stylish background color
-
+            backgroundColor: Colors.transparent,
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back,
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => ConsumerMainPageScreen()),
+                );
               },
             ),
-            elevation: 0, // Adds shadow for depth
+            elevation: 0,
           ),
           body: widget.cartProvider.cart.items.isEmpty
               ? Center(
@@ -106,13 +116,10 @@ class _CartScreenState extends State<CartScreen> {
                           widget.cartProvider.cart.items.remove(item);
                         },
                         child: Card(
-                          color: Colors.white, // Set background color to white
-
+                          color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(2),
                           ),
-                          // elevation: 1.0,
-
                           child: ListTile(
                             contentPadding: EdgeInsets.all(10.0),
                             leading: ClipRRect(
@@ -131,7 +138,6 @@ class _CartScreenState extends State<CartScreen> {
                                 height: 70,
                               ),
                             ),
-
                             title: Text(
                               item.name,
                               style: TextStyle(
@@ -140,10 +146,11 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                             ),
                             subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Price: ${item.price.toStringAsFixed(0)}/-', // Remove decimal places
+                                  'Price: ${item.price.toStringAsFixed(0)}/-',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 14,
@@ -163,9 +170,11 @@ class _CartScreenState extends State<CartScreen> {
                                       onPressed: () {
                                         setState(() {
                                           if (item.quantity > 1) {
-                                            widget.cartProvider.decreaseQuantity(item);
+                                            widget.cartProvider
+                                                .decreaseQuantity(item);
                                           } else {
-                                            widget.cartProvider.removeCartItem(item);
+                                            widget.cartProvider
+                                                .removeCartItem(item);
                                           }
                                           updateTotal();
                                         });
@@ -189,7 +198,8 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          widget.cartProvider.increaseQuantity(item);
+                                          widget.cartProvider
+                                              .increaseQuantity(item);
                                           updateTotal();
                                         });
                                       },
@@ -228,7 +238,7 @@ class _CartScreenState extends State<CartScreen> {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16.0,
-                            fontFamily: 'Montserrat'
+                            fontFamily: 'Montserrat',
                           ),
                         ),
                         SizedBox(height: 5),
@@ -237,7 +247,7 @@ class _CartScreenState extends State<CartScreen> {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16.0,
-                            fontFamily: 'Montserrat'
+                            fontFamily: 'Montserrat',
                           ),
                         ),
                         SizedBox(height: 10),
@@ -249,7 +259,7 @@ class _CartScreenState extends State<CartScreen> {
                             fontWeight: FontWeight.w500,
                             fontSize: 17.0,
                             color: Colors.black87,
-                            fontFamily: 'Montserrat'
+                            fontFamily: 'Montserrat',
                           ),
                         ),
                       ],
@@ -264,13 +274,15 @@ class _CartScreenState extends State<CartScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => ShippingScreen(),
+                        builder: (BuildContext context) =>
+                            ShippingScreen(),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xffcc9a9d),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(2.0),
                     ),
@@ -278,7 +290,7 @@ class _CartScreenState extends State<CartScreen> {
                     textStyle: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'Montserrat'
+                      fontFamily: 'Montserrat',
                     ),
                   ),
                   child: Text(
@@ -291,6 +303,8 @@ class _CartScreenState extends State<CartScreen> {
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

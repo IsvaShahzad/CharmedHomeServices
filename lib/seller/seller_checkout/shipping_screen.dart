@@ -9,8 +9,6 @@ import '../../Providers/seller_cart_provider.dart';
 import 'seller_cartscreen.dart' as cartscreen;
 import 'package:flutter/services.dart';
 
-import '../../Detail_Screens/Packages_DetailScreen/package_detail.dart';
-import '../../initialScreens/loginScreen.dart';
 import 'payment_screen.dart';
 
 class ShippingScreen extends StatefulWidget {
@@ -20,13 +18,13 @@ class ShippingScreen extends StatefulWidget {
 
 class _ShippingScreenState extends State<ShippingScreen> {
   List<String> provinceOptions = [
-    'Punjab',
-    'Sindh',
-    'Balochistan',
-    'Khyber PakhtunKhwa',
-    'Gilgit Baltistan'
+    'London',
+    'Manchester',
+    'Bristol',
+    'Somerset',
+    'Hampshire'
   ];
-  String _selectedProvince = 'Punjab';
+  String _selectedProvince = 'London';
   bool _expressDelivery = false;
 
   final loginFormKey = GlobalKey<FormState>();

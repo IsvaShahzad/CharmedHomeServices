@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../initialScreens/loginScreen.dart';
-import '../initialScreens/verify_email.dart';
+import '../InitialScreens/loginScreen.dart';
+import '../InitialScreens/verify_email.dart';
+
 
 class signupConsumer extends StatefulWidget {
   @override

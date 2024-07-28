@@ -29,7 +29,7 @@ class MapScreenState extends State<ConsumerProfile>
   final TextEditingController EmailController = TextEditingController();
   final TextEditingController MobileController = TextEditingController();
   final TextEditingController PincodeController = TextEditingController();
-  final TextEditingController StateController = TextEditingController();
+  // final TextEditingController StateController = TextEditingController();
 
   late XFile file;
   var _isLoading = false;
@@ -94,7 +94,7 @@ class MapScreenState extends State<ConsumerProfile>
       EmailController.text = prefs.getString('email') ?? '';
       MobileController.text = prefs.getString('mobile') ?? '';
       PincodeController.text = prefs.getString('pincode') ?? '';
-      StateController.text = prefs.getString('state') ?? '';
+      // StateController.text = prefs.getString('state') ?? '';
     });
   }
 
@@ -376,20 +376,20 @@ class MapScreenState extends State<ConsumerProfile>
                                         ),
                                         flex: 2,
                                       ),
-                                      Expanded(
-                                        child: Container(
-                                          child: new Text(
-                                            'State',
-                                            style: TextStyle(
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(0xffcc9a9d),
-                                              fontFamily: 'Montserrat'
-                                            ),
-                                          ),
-                                        ),
-                                        flex: 2,
-                                      ),
+                                      // Expanded(
+                                      //   child: Container(
+                                      //     child: new Text(
+                                      //       'State',
+                                      //       style: TextStyle(
+                                      //         fontSize: 16.0,
+                                      //         fontWeight: FontWeight.bold,
+                                      //         color: Color(0xffcc9a9d),
+                                      //         fontFamily: 'Montserrat'
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   flex: 2,
+                                      // ),
                                     ],
                                   )),
                               Padding(
@@ -422,23 +422,23 @@ class MapScreenState extends State<ConsumerProfile>
                                         ),
                                         flex: 2,
                                       ),
-                                      Flexible(
-                                        child: new TextFormField(
-                                          controller: StateController,
-                                          decoration: const InputDecoration(
-                                            hintText: "Enter State",
-                                          ),
-                                          enabled: !_status,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Please enter your name';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (value) => _state = value!,
-                                        ),
-                                        flex: 2,
-                                      ),
+                                      // Flexible(
+                                      //   child: new TextFormField(
+                                      //     controller: StateController,
+                                      //     decoration: const InputDecoration(
+                                      //       hintText: "Enter State",
+                                      //     ),
+                                      //     enabled: !_status,
+                                      //     validator: (value) {
+                                      //       if (value!.isEmpty) {
+                                      //         return 'Please enter your name';
+                                      //       }
+                                      //       return null;
+                                      //     },
+                                      //     onSaved: (value) => _state = value!,
+                                      //   ),
+                                      //   flex: 2,
+                                      // ),
                                     ],
                                   )),
                               !_status ? _getActionButtons() : new Container(),
@@ -552,7 +552,7 @@ class MapScreenState extends State<ConsumerProfile>
       await prefs.setString('name', NameController.text);
       await prefs.setString('email', EmailController.text);
       await prefs.setString('pincode', PincodeController.text);
-      await prefs.setString('state', StateController.text);
+      // await prefs.setString('state', StateController.text);
       await prefs.setString('mobile', MobileController.text);
 
       // Get a reference to the Firestore collection
@@ -564,7 +564,7 @@ class MapScreenState extends State<ConsumerProfile>
         'sellername': NameController.text,
         'email': EmailController.text,
         'pincode': PincodeController.text,
-        'state': StateController.text,
+        // 'state': StateController.text,
         'mobile': MobileController.text,
       });
 

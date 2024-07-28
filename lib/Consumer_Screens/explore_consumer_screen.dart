@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:services_android_app/initialScreens/ContinueAsConsumerOrSellerScreen.dart';
 
-import '../initialScreens/loginScreen.dart';
+import '../InitialScreens/ContinueAsConsumerOrSellerScreen.dart';
 import 'Consumer_mainpage.dart';
 import 'favourites.dart';
 

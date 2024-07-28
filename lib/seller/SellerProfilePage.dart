@@ -28,7 +28,7 @@ class MapScreenState extends State<ProfilePage>
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController pincodeController = TextEditingController();
-  final TextEditingController stateController = TextEditingController();
+  // final TextEditingController stateController = TextEditingController();
 
   late XFile file;
   var _isLoading = false;
@@ -93,7 +93,7 @@ class MapScreenState extends State<ProfilePage>
       emailController.text = prefs.getString('email') ?? '';
       mobileController.text = prefs.getString('mobile') ?? '';
       pincodeController.text = prefs.getString('pincode') ?? '';
-      stateController.text = prefs.getString('state') ?? '';
+      // stateController.text = prefs.getString('state') ?? '';
     });
   }
 
@@ -376,20 +376,20 @@ class MapScreenState extends State<ProfilePage>
                                         ),
                                         flex: 2,
                                       ),
-                                      Expanded(
-                                        child: Container(
-                                          child: new Text(
-                                            'State',
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color(0xffcc9a9d),
-                                                fontFamily: 'Montserrat'
-                                            ),
-                                          ),
-                                        ),
-                                        flex: 2,
-                                      ),
+                                      // Expanded(
+                                      //   child: Container(
+                                      //     child: new Text(
+                                      //       'State',
+                                      //       style: TextStyle(
+                                      //           fontSize: 16.0,
+                                      //           fontWeight: FontWeight.bold,
+                                      //           color: Color(0xffcc9a9d),
+                                      //           fontFamily: 'Montserrat'
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //   flex: 2,
+                                      // ),
                                     ],
                                   )),
                               Padding(
@@ -422,23 +422,23 @@ class MapScreenState extends State<ProfilePage>
                                         ),
                                         flex: 2,
                                       ),
-                                      Flexible(
-                                        child: new TextFormField(
-                                          controller: stateController,
-                                          decoration: const InputDecoration(
-                                            hintText: "Enter State",
-                                          ),
-                                          enabled: !_status,
-                                          validator: (value) {
-                                            if (value!.isEmpty) {
-                                              return 'Please enter your name';
-                                            }
-                                            return null;
-                                          },
-                                          onSaved: (value) => _state = value!,
-                                        ),
-                                        flex: 2,
-                                      ),
+                                      // Flexible(
+                                      //   child: new TextFormField(
+                                      //     controller: stateController,
+                                      //     decoration: const InputDecoration(
+                                      //       hintText: "Enter State",
+                                      //     ),
+                                      //     enabled: !_status,
+                                      //     validator: (value) {
+                                      //       if (value!.isEmpty) {
+                                      //         return 'Please enter your name';
+                                      //       }
+                                      //       return null;
+                                      //     },
+                                      //     onSaved: (value) => _state = value!,
+                                      //   ),
+                                      //   flex: 2,
+                                      // ),
                                     ],
                                   )),
                               !_status ? _getActionButtons() : new Container(),
@@ -553,7 +553,7 @@ class MapScreenState extends State<ProfilePage>
         await prefs.setString('name', nameController.text);
         await prefs.setString('email', emailController.text);
         await prefs.setString('pincode', pincodeController.text);
-        await prefs.setString('state', stateController.text);
+        // await prefs.setString('state', stateController.text);
         await prefs.setString('mobile', mobileController.text);
 
         // Get a reference to the Firestore collection
@@ -565,7 +565,7 @@ class MapScreenState extends State<ProfilePage>
           'sellername': nameController.text,
           'email': emailController.text,
           'pincode': pincodeController.text,
-          'state': stateController.text,
+          // 'state': stateController.text,
           'mobile': mobileController.text,
         });
 

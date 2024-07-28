@@ -2,14 +2,10 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:services_android_app/Consumer_Screens/Consumer_mainpage.dart';
-import 'package:services_android_app/initialScreens/loginScreen.dart';
-import 'package:services_android_app/seller/SellerProfilePage.dart';
-import 'package:services_android_app/seller/seller_checkout/payment_screen.dart';
 
 import 'Consumer_Screens/favourites.dart';
 import 'package:provider/provider.dart';
-import 'initialScreens/splash_screen.dart';
+import 'InitialScreens/splash_screen.dart';
 import 'seller/cart.dart';
 import 'Providers/seller_cart_provider.dart';
 
