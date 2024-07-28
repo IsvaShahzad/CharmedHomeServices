@@ -237,6 +237,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
+                          fontFamily: 'Montserrat'
                       ),
                     ),
                   ),
@@ -247,6 +248,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       '${widget.productDescription}',
                       style: TextStyle(
                         fontSize: 18.0,
+                          fontFamily: 'Montserrat'
                       ),
                     ),
                   ),
@@ -257,6 +259,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       'Rs.${widget.productPrice.toStringAsFixed(0)}',
                       style: TextStyle(
                         fontSize: 18.0,
+                          fontFamily: 'Montserrat'
                       ),
                     ),
                   ),

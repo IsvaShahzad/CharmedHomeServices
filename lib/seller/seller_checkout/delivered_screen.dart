@@ -69,24 +69,7 @@ class _DeliveredScreenState extends State<DeliveredScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => SellerHomePage(),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+
                     SizedBox(height: 100.0),
                     Align(
                       alignment: Alignment.center,
