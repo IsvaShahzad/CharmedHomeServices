@@ -7,9 +7,9 @@
     <uses-feature android:name="android.hardware.telephony" android:required="false"/>
 
     <application
-        android:label="services_android_app"
+        android:label="Charmed"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/charmedlogo">
 
         <activity
             android:name=".MainActivity"

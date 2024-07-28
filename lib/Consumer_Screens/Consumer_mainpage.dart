@@ -416,7 +416,7 @@ class _ConsumerMainPageScreenState extends State<ConsumerMainPageScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ContactUsScreen(),
+                            builder: (context) => ContactUsScreen(userRole: 'consumer',),
                           ),
                         );
                       },
