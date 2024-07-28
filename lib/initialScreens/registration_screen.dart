@@ -231,8 +231,32 @@ class _RegistrationState extends State<Registration> {
                                   builder: (BuildContext context) =>
                                       VerifyEmail()),
                             );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'email-already-in-use') {
+                              // Show SnackBar for email already in use
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('The email is already in use.'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            } else {
+                              // Show SnackBar for other errors
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(e.message ?? 'Error'),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
                           } catch (e) {
                             print(e);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('An unexpected error occurred.'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
                           }
                         }
                       },
