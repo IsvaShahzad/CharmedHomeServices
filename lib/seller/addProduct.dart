@@ -31,7 +31,7 @@ class _AddProductState extends State<AddProduct> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Color(0xFFAB47BC),
+                backgroundColor: Color(0xffcc9a9d),
                 elevation: 3,
                 minimumSize: const Size(150, 50),
                 maximumSize: const Size(150, 50),

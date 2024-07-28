@@ -64,7 +64,7 @@ class _CartScreenState extends State<CartScreen> {
             child: Padding(
               padding: EdgeInsets.only(top: 20),
               child: Text(
-                'Your cart is empty!\nAdd something to cart 🛒',
+                'Your cart is empty!\nAdd something to it🛒',
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w500,

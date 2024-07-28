@@ -58,7 +58,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
     Product(
       imageUrl: 'https://bakerjo.co.uk/wp-content/uploads/2022/08/IMG_3525.jpg',
       productName: 'Carrot Cake',
-      productPrice: 13.99,
+      productPrice: 1300,
       productDescription:
           'Moist carrot cake with walnuts and cream cheese frosting.',
       companyName: 'Cake Shop',
@@ -69,7 +69,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       imageUrl:
           'https://joyfoodsunshine.com/wp-content/uploads/2021/12/best-vanilla-cupcakes-recipe-1x1-1.jpg',
       productName: 'Vanilla Cupcake',
-      productPrice: 3.99,
+      productPrice: 1200,
       productDescription: 'Tasty vanilla cupcake with creamy frosting.',
       companyName: 'Cupcake Corner',
     ),
@@ -77,7 +77,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       imageUrl:
           'https://www.onceuponachef.com/images/2021/02/chocolate-lover-chocolate-cupcakes-scaled.jpg',
       productName: 'Chocolate Cupcake',
-      productPrice: 4.99,
+      productPrice: 700,
       productDescription: 'Delicious chocolate cupcake with a moist center.',
       companyName: 'Bakes',
     ),
@@ -85,7 +85,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       imageUrl:
           'https://www.allrecipes.com/thmb/W5Ou0-fSTAHi5vM9FdJkplRzgNQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/212429-red-velvet-cupcakes-ddmfs-0178-3x4-hero-e5cd9e2684dd4d90b40d9aa0d42e3ee2.jpg',
       productName: 'Red Velvet Cupcake',
-      productPrice: 4.49,
+      productPrice: 400,
       productDescription:
           'Smooth red velvet cupcake with cream cheese frosting.',
       companyName: 'EatsCo.',
@@ -94,7 +94,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       imageUrl:
           'https://sallysbakingaddiction.com/wp-content/uploads/2013/04/the-best-lemon-cupcakes-5.jpg',
       productName: 'Lemon Cupcake',
-      productPrice: 4.29,
+      productPrice: 400,
       productDescription: 'Zesty lemon cupcake with a tangy glaze.',
       companyName: 'Cupcake Corner',
     ),
@@ -102,7 +102,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       imageUrl:
           'https://joyfoodsunshine.com/wp-content/uploads/2022/08/carrot-cake-cupcakes-recipe-8.jpg',
       productName: 'Carrot Cupcake',
-      productPrice: 4.79,
+      productPrice: 400,
       productDescription:
           'Moist carrot cupcake with walnuts and cream cheese frosting.',
       companyName: 'Cupcake Corner',
@@ -114,23 +114,18 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
       'https://www.shanfoods.com/wp-content/uploads/2016/11/seekh-kabab.jpg',
       productName: 'Kebab',
       productPrice: 450,
-      productDescription: 'Fresh Chicken Nuggets.',
+      productDescription: 'Fresh Chicken Kebab.',
       companyName: 'Bakery',
-    ), Product(
+    ),
+    Product(
       imageUrl:
       'https://karalydon.com/wp-content/uploads/2022/05/air-fryer-frozen-french-fries-8-2.jpg',
       productName: 'Fries',
       productPrice: 300,
       productDescription: 'Fresh Chicken Nuggets.',
       companyName: 'Bakery',
-    ), Product(
-      imageUrl:
-      'https://cdn.tasteatlas.com/images/recipes/77b9ef5b3e404dacbc227418104705ff.jpg',
-      productName: 'Nuggets',
-      productPrice: 890,
-      productDescription: 'Fresh Chicken Nuggets.',
-      companyName: 'Bakery',
     ),
+
     Product(
       imageUrl:
           'https://cdn.tasteatlas.com/images/recipes/77b9ef5b3e404dacbc227418104705ff.jpg',
@@ -166,7 +161,7 @@ Map<String, List<Product>> dummyProductsBySubcategory = {
     Product(
       imageUrl:
           'https://mummyrecipes.in/wp-content/uploads/2019/08/chickenpopsCover.jpg',
-      productName: 'Pops',
+      productName: 'Chicken Pops',
       productPrice: 900,
       productDescription:
           'Chicken pops with chunks of chicken and bread crumbs',
